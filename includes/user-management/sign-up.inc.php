@@ -3,7 +3,7 @@
 require '..' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 // Create User
-if (isset($_POST['btn-register'])) {
+if (isset($_POST['_utf8'])) {
 
   $fullname = trim(mysqli_real_escape_string($conn, $_POST['fullName']));
   $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
@@ -11,30 +11,23 @@ if (isset($_POST['btn-register'])) {
   $password = trim(mysqli_real_escape_string($conn, $_POST['password']));
   $confirmPassword = trim(mysqli_real_escape_string($conn, $_POST['confirmPassword']));
 
-  $businessType = trim($_POST['businessType']);
-  $subCategory = implode(', ', $_POST['subCategory']);
-  $companyName = trim(mysqli_real_escape_string($conn, $_POST['companyName']));
-  $companyName = stripslashes($_POST['companyName']);
-	$companyAddress = trim(mysqli_real_escape_string($conn, $_POST['companyAddress']));
-  $contactNo = trim(mysqli_real_escape_string($conn, $_POST['contactNo']));
-  $registrationCode = trim(mysqli_real_escape_string($conn, $_POST['code']));
-  $code = '%' . $registrationCode . '%';
+  $userType = trim($_POST['userType']);
   
   // Pasword Length
   $passwordLength = strlen($password);
 
   // For directory
-  $company = str_replace(' ', '-', strtolower($companyName));
-  $url = preg_replace('/[^A-Za-z0-9\-]/', '', $company);
+  $folder = str_replace(' ', '-', strtolower($fullname));
+  $url = preg_replace('/[^A-Za-z0-9\-]/', '', $folder);
   
   // ~~~~~~~~~~~~~~~~~~~~~ Error Handling ~~~~~~~~~~~~~~~~~~~~~
-  if (!preg_match("/^(?![\s.]+$)[a-zA-Z\s.]*$/", $fullname) || !preg_match("/.+\@.+\..+/", $email) || !preg_match("/(^(\+)?639-?([0-9]{10}))|([0-9]{3}-?[0-9]{4})/", $contactNo)) {
-    header('Location: ../../register.php?invalidCharacters');
+  if (!preg_match("/^(?![\s.]+$)[a-zA-Z\s.]*$/", $fullname) || !preg_match("/.+\@.+\..+/", $email)) {
+    echo"Invalid characters";
 		exit();
   } else {
     // Check is email is valid
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      header('Location: ../../register.php?invalidEmail');
+      echo "Invalid email address!";
 			exit();
     } else {
       // Check if email exist
@@ -51,146 +44,238 @@ if (isset($_POST['btn-register'])) {
         $resultCheck = mysqli_stmt_num_rows($stmt);
 
         if ($resultCheck > 0) {
-          header('Location: ../../register.php?emailTaken');
+          echo "Email already taken!";
 				  exit();
         } else {
           if ($passwordLength < 6) {
-            header('Location: ../../register.php?shortPassword');
+            echo"short password";
 					  exit();
           } else {
             if ($password != $confirmPassword) {
-              header('Location: ../../register.php?passwordNotMatched');
+              echo"mismatch";
 						  exit();
             } else {
-              if (empty($businessType)) {
-                header('Location: ../../register.php?noBusinessType');
+              if (empty($userType)) {
+                echo"Empty User Type";
 							  exit();
               } else {
-                if (empty($subCategory)) {
-                  header('Location: ../../register.php?noSubCategory');
-							    exit();
+                $sql = "INSERT INTO `user` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_type`) VALUES (NULL, ?, ?, ?, ?);";
+                // Create a prepared statement
+                $stmt = mysqli_stmt_init($conn);
+                // Prepare the prepared statement
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                  die('SQL Failed: ' . mysqli_error($conn));
                 } else {
-                  // Check for Registration Code
+                  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                  // $hashedToken = password_hash($token, PASSWORD_DEFAULT);
 
-                  $sql = "SELECT * FROM registration_code WHERE codes LIKE ?;";
-                  $stmt = mysqli_stmt_init($conn);
-                  if (!mysqli_stmt_prepare($stmt, $sql)) {
-                    die('SQL Failed: ' . mysqli_error($conn));
-                  } else {
-                    mysqli_stmt_bind_param($stmt, "s", $code);
-                    mysqli_stmt_execute($stmt);
-                    mysqli_stmt_store_result($stmt);
+                  // Bind the parameters to the placeholders
+                  mysqli_stmt_bind_param($stmt, "ssss", $fullname, $email, $hashedPassword, $userType);
+                  // Run parameters inside the database
+                  if (mysqli_stmt_execute($stmt)) {
+                    $user_fk = mysqli_insert_id($conn);
 
-                    $resultCheck = mysqli_stmt_num_rows($stmt);
-
-                    if ($resultCheck == 0) {
-                      header('Location: ../../register.php?noCode');
-                      exit();
-                    } else {
-                      $sql = "INSERT INTO `user` (`user_ID`, `user_name`, `user_email`, `user_password`, `is_verified`) VALUES (NULL, ?, ?, ?, '1');";
-                      // Create a prepared statement
+                    if ($userType === "Student") {
+                      $sql = "INSERT INTO `student` (`student_id`, `student_tagline`, `full_name`, `student_info`, `student_contact_no`, `student_address`, `preparatory_name`, `preparatory_start`, `preparatory_finish`, `preparatory_info`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `student_facebook`, `student_twitter`, `student_instagram`, `student_linkedin`, `student_header`, `student_video`, `student_photo`, `user_ID`) VALUES (NULL, '', ?, '', '', '', '', NULL, NULL, '', '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', '', '', '', '', ?);";
                       $stmt = mysqli_stmt_init($conn);
-                      // Prepare the prepared statement
+
                       if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        echo 'SQL Failed: ' . mysqli_error($conn);
+                        die('SQL Failed: ' . mysqli_error($conn));
                       } else {
-                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                        // $hashedToken = password_hash($token, PASSWORD_DEFAULT);
+                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        mysqli_stmt_execute($stmt);
 
-                        // Bind the parameters to the placeholders
-                        mysqli_stmt_bind_param($stmt, "sss", $fullname, $email, $hashedPassword);
-                        // Run parameters inside the database
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url;
+                        mkdir($target_dir, true);
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'documents';
+                        mkdir($target_dir, true);
+                        chmod($target_dir, 0777);
+
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "student_owner";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "student_logo";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "student_header";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+
+                        $sql = "SELECT * FROM user, student WHERE user.user_ID = $user_fk AND student.user_ID = $user_fk";
+                        $stmt = mysqli_stmt_init($conn);
+
+                        if (!mysqli_stmt_prepare($stmt, $sql)) {
+                          die('SQL Failed: ' . mysqli_error($conn));
+                        } else {
+                          mysqli_stmt_execute($stmt);
+                          $result = mysqli_stmt_get_result($stmt);
+
+                          while ($row = mysqli_fetch_assoc($result)) {
+                            session_start();
+                            
+                            $_SESSION['loggedIn'] = true;
+
+                            $_SESSION['userID'] = $row['user_ID'];
+                            $_SESSION['userName'] = $row['user_name'];
+                            $_SESSION['userEmail'] = $row['user_email'];
+                            $_SESSION['userType'] = $row['user_type'];
+
+                            $_SESSION['studentID'] = $row['student_id'];
+                            // $_SESSION['url'] = $row['company_url'];
+
+                            echo "success";
+                            exit();
+                          }
+                        }
+                      }
+                    } elseif ($userType === "Mentor") {
+                      $sql = "INSERT INTO `mentor` (`mentor_id`, `full_name`, `contact_no`, `address`, `preparatory_educ`, `secondary_educ`, `higher_educ`, `user_ID`) VALUES (NULL, ?, '', '', '', '', '', ?);";
+                      $stmt = mysqli_stmt_init($conn);
+
+                      if (!mysqli_stmt_prepare($stmt, $sql)) {
+                        die('SQL Failed: ' . mysqli_error($conn));
+                      } else {
+                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        mysqli_stmt_execute($stmt);
+
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url;
+                        mkdir($target_dir, true);
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'documents';
+                        mkdir($target_dir, true);
+                        chmod($target_dir, 0777);
+
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "mentor_owner";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "mentor_logo";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "mentor_header";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+
+                        $sql = "SELECT * FROM user, mentor WHERE user.user_ID = $user_fk AND mentor.user_ID = $user_fk";
+                        $stmt = mysqli_stmt_init($conn);
+
+                        if (!mysqli_stmt_prepare($stmt, $sql)) {
+                          die('SQL Failed: ' . mysqli_error($conn));
+                        } else {
+                          mysqli_stmt_execute($stmt);
+                          $result = mysqli_stmt_get_result($stmt);
+
+                          while ($row = mysqli_fetch_assoc($result)) {
+                            session_start();
+                            
+                            $_SESSION['loggedIn'] = true;
+
+                            $_SESSION['userID'] = $row['user_ID'];
+                            $_SESSION['userName'] = $row['user_name'];
+                            $_SESSION['userEmail'] = $row['user_email'];
+                            $_SESSION['userType'] = $row['user_type'];
+
+                            $_SESSION['mentorID'] = $row['mentor_id'];
+                            // $_SESSION['url'] = $row['company_url'];
+
+                            echo "success";
+                            exit();
+                          }
+                        }
+                      }
+                    } elseif ($userType === "Company") {
+                      $sql = "INSERT INTO `company` (`company_ID`, `company_name`, `company_email`, `company_address`, `company_contact_number`, `company_business_type`, `company_business_category`, `company_info`, `company_owner_info`, `company_tagline`, `company_url`, `company_header_image`, `company_logo_image`, `company_owner_image`, `company_videos`, `user_ID`) VALUES (NULL, ?, '', '', '', '', '', '', '', '', '', '', '', '', '', ?);";
+                      $stmt = mysqli_stmt_init($conn);
+
+                      if (!mysqli_stmt_prepare($stmt, $sql)) {
+                        die('SQL Failed: ' . mysqli_error($conn));
+                      } else {
+                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        
                         if (mysqli_stmt_execute($stmt)) {
-                          $user_fk = mysqli_insert_id($conn);
+                          $company_fk = mysqli_insert_id($conn);
 
-                          $sql = "INSERT INTO `company` (`company_ID`, `company_name`, `company_address`, `company_contact_number`, `company_business_type`, `company_business_category`, `company_url`,  `user_ID`) VALUES (NULL, ?, ?, ?, ?, ?, ?, $user_fk);";
+                          $sql = "INSERT INTO `company_social_media` (`media_ID`, `media_facebook`, `media_twitter`, `media_instagram`, `media_linkedin`, `media_rss`, `company_ID`) VALUES (NULL, '', '', '', '', '', $company_fk);";
                           $stmt = mysqli_stmt_init($conn);
 
                           if (!mysqli_stmt_prepare($stmt, $sql)) {
                             die('SQL Failed: ' . mysqli_error($conn));
                           } else {
-                            mysqli_stmt_bind_param($stmt, "ssssss", $companyName, $companyAddress, $contactNo, $businessType, $subCategory, $url);
+                            mysqli_stmt_execute($stmt);
                             
-                            if (mysqli_stmt_execute($stmt)) {
-                              $company_fk = mysqli_insert_id($conn);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url;
+                            mkdir($target_dir, true);
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'documents';
+                            mkdir($target_dir, true);
+                            chmod($target_dir, 0777);
 
-                              $sql = "INSERT INTO `company_social_media` (`media_ID`, `media_facebook`, `medoa_twitter`, `media_google`, `media_linkedin`, `media_rss`, `company_ID`) VALUES (NULL, '', '', '', '', '', $company_fk);";
-                              $stmt = mysqli_stmt_init($conn);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_owner";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_logo";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_header";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "products-services";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
 
-                              if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                die('SQL Failed: ' . mysqli_error($conn));
-                              } else {
-                                mysqli_stmt_execute($stmt);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "testimonials";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+                            $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "clients";
+                            mkdir($target_dir, true);						
+                            chmod($target_dir, 0777);
+
+                            $sql = "SELECT * FROM user, company WHERE user.user_ID = $user_fk AND company.user_ID = $user_fk";
+                            $stmt = mysqli_stmt_init($conn);
+
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
+
+                              while ($row = mysqli_fetch_assoc($result)) {
+                                session_start();
                                 
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url;
-                                mkdir($target_dir, true);
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'documents';
-                                mkdir($target_dir, true);
-                                chmod($target_dir, 0777);
+                                $_SESSION['loggedIn'] = true;
 
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_owner";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_logo";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "company_header";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "products-services";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
+                                $_SESSION['userID'] = $row['user_ID'];
+                                $_SESSION['userName'] = $row['user_name'];
+                                $_SESSION['userEmail'] = $row['user_email'];
 
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "testimonials";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
-                                $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "clients";
-                                mkdir($target_dir, true);						
-                                chmod($target_dir, 0777);
+                                $_SESSION['companyID'] = $row['company_ID'];
+                                $_SESSION['businessType'] = $row['company_business_type'];
+                                $_SESSION['subCategory'] = $row['company_business_category'];
+                                $_SESSION['companyName'] = $row['company_name'];
+                                $_SESSION['companyAddress'] = $row['company_address'];
+                                $_SESSION['contactNo'] = $row['company_contact_number'];
+                                $_SESSION['companyEmail'] = $row['company_email'];
+                                $_SESSION['url'] = $row['company_url'];
+                                
+                                // $_SESSION['companyOwnerImage'] = $row['company_owner_image'];
+                                // $_SESSION['companyLogoImage'] = $row['company_logo_image'];
+                                // $_SESSION['companyHeaderImage'] = $row['company_header_image'];
+                                $_SESSION['companyVideos'] = $row['company_videos'];
+                                $_SESSION['companyTagline'] = $row['company_tagline'];
+                                $_SESSION['companyInfo'] = $row['company_info'];
+                                $_SESSION['companyOwnerInfo'] = $row['company_owner_info'];
 
-                                $sql = "SELECT * FROM user, company WHERE user.user_ID = $user_fk AND company.user_ID = $user_fk";
-                                $stmt = mysqli_stmt_init($conn);
-
-                                if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                  die('SQL Failed: ' . mysqli_error($conn));
-                                } else {
-                                  mysqli_stmt_execute($stmt);
-                                  $result = mysqli_stmt_get_result($stmt);
-
-                                  while ($row = mysqli_fetch_assoc($result)) {
-                                    session_start();
-                                    
-                                    $_SESSION['loggedIn'] = true;
-
-                                    $_SESSION['userID'] = $row['user_ID'];
-                                    $_SESSION['userName'] = $row['user_name'];
-                                    $_SESSION['userEmail'] = $row['user_email'];
-
-                                    $_SESSION['companyID'] = $row['company_ID'];
-                                    $_SESSION['businessType'] = $row['company_business_type'];
-                                    $_SESSION['subCategory'] = $row['company_business_category'];
-                                    $_SESSION['companyName'] = $row['company_name'];
-                                    $_SESSION['companyAddress'] = $row['company_address'];
-                                    $_SESSION['contactNo'] = $row['company_contact_number'];
-                                    $_SESSION['companyEmail'] = $row['company_email'];
-                                    $_SESSION['url'] = $row['company_url'];
-                                    
-                                    // $_SESSION['companyOwnerImage'] = $row['company_owner_image'];
-                                    // $_SESSION['companyLogoImage'] = $row['company_logo_image'];
-                                    // $_SESSION['companyHeaderImage'] = $row['company_header_image'];
-                                    $_SESSION['companyVideos'] = $row['company_videos'];
-                                    $_SESSION['companyTagline'] = $row['company_tagline'];
-                                    $_SESSION['companyInfo'] = $row['company_info'];
-                                    $_SESSION['companyOwnerInfo'] = $row['company_owner_info'];
-
-                                    header('Location: ../../index.php?registerSuccessfully');
-                                    exit();
-                                  }
-                                }
+                                echo "success";
+                                exit();
                               }
                             }
                           }

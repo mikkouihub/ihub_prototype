@@ -1,0 +1,196 @@
+
+Save New Duplicate & Edit Just Text Twitter
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+element.style {
+    background-color: #C3C4C4 !important;
+}
+
+.primaryProfValue {
+  display:none;
+
+}
+form.form input.text, form.form textarea.standard, form.form input.date { 
+   background-color:#FFFFFF;
+   border:0px;
+   font-size:14px;
+   color:#000000;
+   -moz-border-radius:0px;
+   -webkit-border-radius:0px;
+   border-radius:0px;
+   width: 95%;
+   height: 28px;
+}
+form.form select {
+     background-color:#FFFFFF;
+   border:0px;
+   font-size:14px;
+   color:#000000;
+   -moz-border-radius:0px;
+   -webkit-border-radius:0px;
+   border-radius:0px;
+    width: 97%;
+    height: 28px;
+}  
+form.form input {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}    
+form.form p.no-label, form.form p.email-pref {
+    margin: .2em .5em .6em;
+    padding: 0;
+} 
+form.form p label.inline {
+    background: 0;
+    display: inline;
+    float: none;
+    font-weight: normal;
+    line-height: 2em;
+    margin-right: 10px;
+    padding: 5px;
+    text-align: left;
+    vertical-align: baseline;
+}
+form.form p label {
+   font-size:14px;
+   color:#333333;
+   font-weight:normal;
+   padding-top:2px;
+   padding-bottom:2px;
+   width: 95%;
+}
+form.form button[type=submit]{
+   background-color:#438A0D;
+   border:solid 0px #A9A9A9;
+   font-size:12px;
+   /**color:#FFFCFD;**/
+   color:#262420;
+   font-weight:bold;
+   -moz-border-radius:0px;
+   -webkit-border-radius:0px;
+   border-radius:0px;
+   margin:top:10px;
+   height:30px;
+   width: 97%;
+}
+/**input[type="checkbox"], input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+    margin-left: 15px;
+}**/
+form.form p.submit {
+   margin-top:10px;
+   margin-bottom:0px;
+
+}  
+form.form p.required label, form.form span.required label {
+    background:none !important; 
+    font-weight:normal;
+}
+form.form p.required label.field-label:after {
+    content:"*"; 
+    color: #FF2C21; 
+}
+form.form p label {
+float:none;text-align:left}
+form.form span.value {
+margin-left:0;}
+form.form p.submit {
+margin-left:6px;}
