@@ -151,20 +151,20 @@
 <!--==========================================
                   PRE-LOADER
 ===========================================-->
-<div id="loading">
+<!-- <div id="loading">
     <div id="loading-center">
         <div id="loading-center-absolute">
             <div class="box-holder animated bounceInDown">
                 <span class="load-box"><span class="box-inner"></span></span>
-            </div>
+            </div> -->
             <!-- NAME & STATUS -->
-            <div class="text-holder text-center">
-                <h2><?php echo $fullName; ?></h2>
+            <!-- <div class="text-holder text-center">
+                <h2><?php echo $fullName; ?></h2> -->
                 <!-- <h6>Software Engineer & UI/UX Expert</h6> -->
-            </div>
+            <!-- </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!--==========================================
                     HEADER

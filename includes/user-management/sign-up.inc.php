@@ -256,6 +256,7 @@ if (isset($_POST['_utf8'])) {
                                 $_SESSION['userID'] = $row['user_ID'];
                                 $_SESSION['userName'] = $row['user_name'];
                                 $_SESSION['userEmail'] = $row['user_email'];
+                                $_SESSION['userType'] = $row['user_type'];
 
                                 $_SESSION['companyID'] = $row['company_ID'];
                                 $_SESSION['businessType'] = $row['company_business_type'];

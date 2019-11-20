@@ -3,7 +3,7 @@
 require '..' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 // Create User
-if (isset($_POST['btn-login'])) {
+if (isset($_POST['submit'])) {
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -45,10 +45,65 @@ if (isset($_POST['btn-login'])) {
               echo "Incorrect Email/Password!";
               exit();
             } elseif ($passCheck == true) {
-              if ($row['is_verified'] == 0) {
-                echo "Your account has not yet been validated";
-                exit();
-              } else {
+              $userType = $row['user_type'];
+
+              if ($userType === "Student") {
+                session_start();
+
+                $_SESSION['loggedIn'] = true;
+
+                $_SESSION['userID'] = $row['user_ID'];
+                $_SESSION['userName'] = $row['user_name'];
+                $_SESSION['userEmail'] = $row['user_email'];
+                $_SESSION['userType'] = $row['user_type'];
+
+                $sql = "SELECT * FROM user, student WHERE user.user_ID = ? AND student.user_ID = ?";
+                $stmt = mysqli_stmt_init($conn);
+
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                  die('SQL Failed: ' . mysqli_error($conn));
+                } else {
+                  mysqli_stmt_bind_param($stmt, "ss", $_SESSION['userID'], $_SESSION['userID']);
+                  mysqli_stmt_execute($stmt);
+                  $result = mysqli_stmt_get_result($stmt);
+
+                  while ($row_company = mysqli_fetch_assoc($result)) {
+
+                    $_SESSION['studentID'] = $row_company['student_id'];
+
+                    echo "success";
+                    exit();
+                  }
+                }
+              } elseif ($userType === "Mentor") {
+                session_start();
+
+                $_SESSION['loggedIn'] = true;
+
+                $_SESSION['userID'] = $row['user_ID'];
+                $_SESSION['userName'] = $row['user_name'];
+                $_SESSION['userEmail'] = $row['user_email'];
+                $_SESSION['userType'] = $row['user_type'];
+
+                $sql = "SELECT * FROM user, mentor WHERE user.user_ID = ? AND mentor.user_ID = ?";
+                $stmt = mysqli_stmt_init($conn);
+
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                  die('SQL Failed: ' . mysqli_error($conn));
+                } else {
+                  mysqli_stmt_bind_param($stmt, "ss", $_SESSION['userID'], $_SESSION['userID']);
+                  mysqli_stmt_execute($stmt);
+                  $result = mysqli_stmt_get_result($stmt);
+
+                  while ($row_company = mysqli_fetch_assoc($result)) {
+
+                    $_SESSION['mentorID'] = $row_company['mentor_id'];
+
+                    echo "success";
+                    exit();
+                  }
+                }
+              } elseif ($userType === "Company") {
                 session_start();
 
                 $_SESSION['loggedIn'] = true;
@@ -56,6 +111,7 @@ if (isset($_POST['btn-login'])) {
                 $_SESSION['userID'] = $row['user_ID'];
                 $_SESSION['userName'] = $row['user_name'];
                 $_SESSION['userEmail'] = $row['user_email'];
+                $_SESSION['userType'] = $row['user_type'];
 
                 $sql = "SELECT * FROM user, company WHERE user.user_ID = ? AND company.user_ID = ?";
                 $stmt = mysqli_stmt_init($conn);

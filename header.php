@@ -322,10 +322,13 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
           						$_SESSION['userName'],
           					'</button>
           				<div class="dropdown-content">';
-          			if ($_SESSION['userType'] == "ADMIN") {
-          				echo '<a href="user/admin.php" target="_blank">Admin Page</a>';
-          			}
-          				echo '<a href="user/profile.php" target="_blank">My Profile</a>';
+          			if ($_SESSION['userType'] == "Student") {
+          				echo '<a href="business/student.php" target="_blank">My Profile</a>';
+          			} elseif ($_SESSION['userType'] == "Mentor") {
+									echo '<a href="business/mentor.php" target="_blank">My Profile</a>';
+								} elseif ($_SESSION['userType'] == "Company") {
+									echo '<a href="business/company.php" target="_blank">My Profile</a>';
+								}
           				echo '
           					<form action="includes/user-management/logout.inc.php" method="POST">
 						    <a ><button id="btn" type="submit" name="logout">Logout</button></a>
