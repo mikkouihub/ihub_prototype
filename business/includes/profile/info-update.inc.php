@@ -4,7 +4,7 @@ session_start();
 
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
-$companyID = $_SESSION['companyID'];
+$studentID = $_SESSION['studentID'];
 
 // if (isset($_POST['btn_save'])) {
   
@@ -60,17 +60,17 @@ $third_exp_info = trim(mysqli_real_escape_string($conn, $_POST['third_exp_info']
 //   mysqli_stmt_execute($stmt);
 // }
 
-$sql2 = "UPDATE `student` SET `student_tagline` = ? , `student_email` = ?, `student_contact_no` = ?, `student_address` = ?, `student_info` = ? , `preparatory_name` = ?, `preparatory_start` = ?, `preparatory_finish` = ?,
+$sql2 = "UPDATE `student` SET `student_tagline` = ? , `student_contact_no` = ?, `student_address` = ?, `student_info` = ? , `preparatory_name` = ?, `preparatory_start` = ?, `preparatory_finish` = ?,
  `preparatory_info` = ?, `secondary_name` = ?, `secondary_start` = ?, `secondary_finish` = ? , `secondary_info` = ?, `higher_name` = ?, `higher_start` = ?, `higher_finish` = ?, `higher_info` = ?, 
  `first_exp_title` = ?, `first_exp_company` = ?, `first_exp_start` = ?, `first_exp_finish` = ?, `first_exp_info` = ?, 
  `second_exp_title` = ?, `second_exp_company` = ?, `second_exp_start` = ?, `second_exp_finish` = ?, `second_exp_info` = ?,
- `third_exp_title` = ?, `third_exp_company` = ?, `third_exp_start` = ?, `third_exp_finish` = ?, `third_exp_info` = ? WHERE student_id = $companyID;";
+ `third_exp_title` = ?, `third_exp_company` = ?, `third_exp_start` = ?, `third_exp_finish` = ?, `third_exp_info` = ? WHERE student_id = $studentID;";
 $stmt2 = mysqli_stmt_init($conn);
 
 if (!mysqli_stmt_prepare($stmt2, $sql2)) {
   die('SQL Failed: ' . mysqli_error($conn));
 } else {
-  mysqli_stmt_bind_param($stmt2, "ssssssssssssssssssssssssssssssss", $student_tagline ,$student_email, $student_contact_no, $student_address, $student_info ,
+  mysqli_stmt_bind_param($stmt2, "sssssssssssssssssssssssssssssss", $student_tagline, $student_contact_no, $student_address, $student_info ,
   $preparatory_name, $preparatory_start, $preparatory_finish, $preparatory_info,
   $secondary_name, $secondary_start, $secondary_finish, $secondary_info, 
   $higher_name, $higher_start, $higher_finish, $higher_info,

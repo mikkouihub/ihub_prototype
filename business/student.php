@@ -9,91 +9,65 @@
   $userID = '';
   $fullName = '';
   $userEmail = '';
-  $companyID = '';
-  $companyName = '';
-  $companyEmail = '';
-  $companyAddress = '';
-  $companyContactNo = '';
-  $companyBusinessType = '';
-  $companyURL = '';
-//   $companyOwnerImage = '';
-//   $companyLogoImage = '';
-//   $companyHeaderImage = '';
-//   $companyVideos = '';
-  $companyTagline = '';
-  $companyInfo = '';
-  $companyOwnerInfo = '';
+  $studentID = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
     $fullName = $_SESSION['userName'];
     $userEmail = $_SESSION['userEmail'];
-    $companyID = $_SESSION['companyID'];
-    $companyName = $_SESSION['companyName'];
-    $companyEmail = $_SESSION['companyEmail'];
-    $companyAddress = $_SESSION['companyAddress'];
-    $companyContactNo = $_SESSION['contactNo'];
-    $companyBusinessType = $_SESSION['businessType'];
-    $companyURL = $_SESSION['url'];
-    // $companyOwnerImage = $_SESSION['companyOwnerImage'];
-    // $companyLogoImage = $_SESSION['companyLogoImage'];
-    // $companyHeaderImage = $_SESSION['companyHeaderImage'];
-    // $companyVideos = $_SESSION['companyVideos'];
-    $companyTagline = $_SESSION['companyTagline'];
-    $companyInfo = $_SESSION['companyInfo'];
-    $companyOwnerInfo = $_SESSION['companyOwnerInfo'];
+    $studentID = $_SESSION['studentID'];
   }
 ?>
 
 <?php
-  if (isset($_GET['company'])) {
-    $companyName = $_GET['company'];
+//   if (isset($_GET['company'])) {
+//     $companyName = $_GET['company'];
 
-    $sql = "SELECT * FROM company WHERE company_url = ?";
-    $stmt = mysqli_stmt_init($conn);
+//     $sql = "SELECT * FROM company WHERE company_url = ?";
+//     $stmt = mysqli_stmt_init($conn);
   
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-      die('SQL Failed: ' . mysqli_error($conn));
-    } else {
-      mysqli_stmt_bind_param($stmt, "s", $companyName);
-      mysqli_stmt_execute($stmt);
+//     if (!mysqli_stmt_prepare($stmt, $sql)) {
+//       die('SQL Failed: ' . mysqli_error($conn));
+//     } else {
+//       mysqli_stmt_bind_param($stmt, "s", $companyName);
+//       mysqli_stmt_execute($stmt);
       
-      $result = mysqli_stmt_get_result($stmt);
+//       $result = mysqli_stmt_get_result($stmt);
   
-      while ($row = mysqli_fetch_assoc($result)) {
-          $companyID = $row['company_ID'];
-          $companyName = $row['company_name'];
-          $companyEmail = $row['company_email'];
-          $companyAddress = $row['company_address'];
-          $companyContactNo = $row['company_contact_number'];
-          $companyBusinessType = $row['company_business_type'];
-          $companyURL = $row['company_url'];
-        //   $companyOwnerImage = $_SESSION['companyOwnerImage'];
-        //   $companyLogoImage = $_SESSION['companyLogoImage'];
-        //   $companyHeaderImage = $_SESSION['companyHeaderImage'];
-        //   $companyVideos = $_SESSION['companyVideos'];
-          $companyTagline = $row['company_tagline'];
-          $companyInfo = $row['company_info'];
-          $companyOwnerInfo = $row['company_owner_info'];
-      }
+//       while ($row = mysqli_fetch_assoc($result)) {
+//           $companyID = $row['company_ID'];
+//           $companyName = $row['company_name'];
+//           $companyEmail = $row['company_email'];
+//           $companyAddress = $row['company_address'];
+//           $companyContactNo = $row['company_contact_number'];
+//           $companyBusinessType = $row['company_business_type'];
+//           $companyURL = $row['company_url'];
+//         //   $companyOwnerImage = $_SESSION['companyOwnerImage'];
+//         //   $companyLogoImage = $_SESSION['companyLogoImage'];
+//         //   $companyHeaderImage = $_SESSION['companyHeaderImage'];
+//         //   $companyVideos = $_SESSION['companyVideos'];
+//           $companyTagline = $row['company_tagline'];
+//           $companyInfo = $row['company_info'];
+//           $companyOwnerInfo = $row['company_owner_info'];
+//       }
   
-      $sql = "SELECT * FROM user WHERE user_ID = $companyID";
-      $stmt = mysqli_stmt_init($conn);
+//       $sql = "SELECT * FROM user WHERE user_ID = $companyID";
+//       $stmt = mysqli_stmt_init($conn);
   
-      if (!mysqli_stmt_prepare($stmt, $sql)) {
-          die('SQL Failed: ' . mysqli_error($conn));
-      } else {
-          mysqli_stmt_execute($stmt);
+//       if (!mysqli_stmt_prepare($stmt, $sql)) {
+//           die('SQL Failed: ' . mysqli_error($conn));
+//       } else {
+//           mysqli_stmt_execute($stmt);
           
-          $result = mysqli_stmt_get_result($stmt);
+//           $result = mysqli_stmt_get_result($stmt);
   
-          while ($row_user = mysqli_fetch_assoc($result)) {
-              $userID = $row_user['user_ID'];
-              $fullName = $row_user['user_name'];
-          }
-      }
-    }
-  }
+//           while ($row_user = mysqli_fetch_assoc($result)) {
+//               $userID = $row_user['user_ID'];
+//               $fullName = $row_user['user_name'];
+//           }
+//       }
+//     }
+//   }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -185,14 +159,15 @@
             <a href="#home"><i class="title-icon fa fa-user"></i>Home</a>
             <a href="#about"><i class="title-icon fa fa-dashboard"></i>About</a>
             <a href="#education"><i class="title-icon fa fa-graduation-cap"></i>Education</a>
-            <a href="#skills"><i class="title-icon fa fa-sliders"></i>Skills</a>
+            <!-- <a href="#skills"><i class="title-icon fa fa-sliders"></i>Skills</a> -->
             <a href="#experience"><i class="title-icon fa fa-suitcase"></i>Experience</a>
-            <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Portfolios</a>
-            <a href="#interest"><i class="title-icon fa fa-heart"></i>Interest</a>
-            <a href="#testimonials"><i class="title-icon fa fa-users"></i>Testimonials</a>
-            <a href="#pricing-table"><i class="title-icon fa fa-money"></i>Pricing</a>
-            <a href="#blog"><i class="title-icon fa fa-pencil-square"></i>Blog</a>
-            <a href="#contact"><i class="title-icon fa fa-envelope"></i>Contact</a>
+            <!-- <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Portfolios</a> -->
+            <!-- <a href="#interest"><i class="title-icon fa fa-heart"></i>Interest</a> -->
+            <!-- <a href="#testimonials"><i class="title-icon fa fa-users"></i>Testimonials</a> -->
+            <!-- <a href="#pricing-table"><i class="title-icon fa fa-money"></i>Pricing</a> -->
+            <!-- <a href="#blog"><i class="title-icon fa fa-pencil-square"></i>Blog</a> -->
+            <!-- <a href="#contact"><i class="title-icon fa fa-envelope"></i>Contact</a> -->
+            <a href="edit-student.php"><i class="title-icon fa fa-edit"></i>Edit Profile</a>
         </div>
 
         <!-- MENU BUTTON -->
@@ -207,31 +182,31 @@
 
     <!--HEADER BACKGROUND-->
     <?php
-        $sql = "SELECT * FROM company WHERE company_ID = $companyID";
-        $stmt = mysqli_stmt_init($conn);
+        // $sql = "SELECT * FROM student WHERE student_id = $studentID";
+        // $stmt = mysqli_stmt_init($conn);
 
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            die('SQL Failed: ' . mysqli_error($conn));
-        } else {
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
+        // if (!mysqli_stmt_prepare($stmt, $sql)) {
+        //     die('SQL Failed: ' . mysqli_error($conn));
+        // } else {
+        //     mysqli_stmt_execute($stmt);
+        //     $result = mysqli_stmt_get_result($stmt);
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                $headerImage = $row['company_header_image'];
+        //     while ($row = mysqli_fetch_assoc($result)) {
+        //         $headerImage = $row['company_header_image'];
 
-                if (empty($headerImage)) {
+        //         if (empty($headerImage)) {
     ?>
                     <div class="header-background section" id="header_background_image"></div>
     <?php
-                } else {
-                    $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_header' . DIRECTORY_SEPARATOR . $headerImage;
+                // } else {
+                //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_header' . DIRECTORY_SEPARATOR . $headerImage;
     ?>
-                    <div class="header-background section" id="header_background_image" style="background-image: url(companies/<?php echo $companyURL; ?>/profile/company_header/<?php echo $headerImage; ?>)">
-                    </div>
+                    <!-- <div class="header-background section" id="header_background_image" style="background-image: url(companies/<?php echo $companyURL; ?>/profile/company_header/<?php echo $headerImage; ?>)">
+                    </div> -->
     <?php
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
     ?>
 </header>
 
@@ -248,31 +223,31 @@
 
                     <!-- PROFILE PICTURE -->
                     <div id="profile" class="right">
-                    <?php
-                            $sql = "SELECT * FROM company WHERE company_ID = $companyID";
-                            $stmt = mysqli_stmt_init($conn);
+                        <?php
+                            // $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            // $stmt = mysqli_stmt_init($conn);
 
-                            if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                die('SQL Failed: ' . mysqli_error($sql));
-                            } else {
-                                mysqli_stmt_execute($stmt);
-                                $result = mysqli_stmt_get_result($stmt);
+                            // if (!mysqli_stmt_prepare($stmt, $sql)) {
+                            //     die('SQL Failed: ' . mysqli_error($conn));
+                            // } else {
+                            //     mysqli_stmt_execute($stmt);
+                            //     $result = mysqli_stmt_get_result($stmt);
 
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    $logoImage = $row['company_logo_image'];
+                            //     while ($row = mysqli_fetch_assoc($result)) {
+                            //         $logoImage = $row['company_logo_image'];
 
-                                    if (empty($logoImage)) {
+                            //         if (empty($logoImage)) {
                         ?>
                                         <img alt="profile-image" class="img-responsive" id="logo_image" src="images/profile/profile.png">
                         <?php
-                                    } else {
-                                        $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_logo' . DIRECTORY_SEPARATOR . $logoImage; 
+                                    // } else {
+                                    //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_logo' . DIRECTORY_SEPARATOR . $logoImage; 
                         ?>
-                                        <img alt="profile-image" class="img-responsive" id="logo_image" src="companies/<?php echo $companyURL; ?>/profile/company_logo/<?php echo $logoImage; ?>">
+                                        <!-- <img alt="profile-image" class="img-responsive" id="logo_image" src="companies/<?php echo $companyURL; ?>/profile/company_logo/<?php echo $logoImage; ?>"> -->
                         <?php
-                                    }
-                                }
-                            }
+                            //         }
+                            //     }
+                            // }
                         ?>
 
                         <div class="slant"></div> 
@@ -294,7 +269,7 @@
 
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -307,7 +282,7 @@
                         ?>
                         <!-- NAME & STATUS -->
                         <div class="info-headings">
-                            <h4 class="text-uppercase left"><?php echo $companyName; ?></h4>
+                            <h4 class="text-uppercase left"><?php echo $fullName; ?></h4>
                             <h6 class="text-capitalize left"><?php echo $row['student_tagline']; ?></h6>
                         </div>
 
@@ -316,17 +291,17 @@
                             <ul class="profile-list">
                                 <li class="clearfix">
                                     <span class="title"><i class="material-icons">email</i></span>
-                                    <span class="content"><?php echo $row['student_email']; ?></span>
+                                    <span class="content"><?php /* echo $row['student_email']; */ ?></span>
                                 </li>
                                <br>
                                 <li class="clearfix">
                                     <span class="title"><i class="material-icons">phone</i></span>
-                                    <span class="content"><?php echo $row['student_contact_no']; ?></span>
+                                    <span class="content"><?php /** echo $row['student_contact_no']; */ ?></span>
                                 </li>
                                 <br>
                                 <li class="clearfix">
                                     <span class="title"><i class="material-icons">place</i></span>
-                                    <span class="content"><?php echo $row['student_address']; ?></span>
+                                    <span class="content"><?php /** echo $row['student_address']; */ ?></span>
                                 </li>
 
                             </ul>
@@ -339,7 +314,7 @@
                         <!--LINKS-->
                         <div class="links">
                         <?php
-                                $sql = "SELECT * FROM `student` WHERE student_id = $companyID";
+                                $sql = "SELECT * FROM `student` WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -395,7 +370,7 @@
                         <!-- ABOUT PARAGRAPH -->
                        
                         <?php
-                                $sql = "SELECT student_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT student_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -448,7 +423,7 @@
                         <div class="timeline-info">
                             <h6>
                             <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -469,7 +444,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT preparatory_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT preparatory_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -505,7 +480,7 @@
                         <div class="timeline-info">
                             <h6>
                             <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -526,7 +501,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT secondary_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT secondary_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -561,7 +536,7 @@
                         <div class="timeline-info">
                             <h6>
                             <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -582,7 +557,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT higher_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT higher_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -641,7 +616,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -667,7 +642,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT first_exp_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT first_exp_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -699,7 +674,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -725,7 +700,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT second_exp_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT second_exp_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -756,7 +731,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $companyID";
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -782,7 +757,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT third_exp_info FROM student WHERE student_id = $companyID";
+                                $sql = "SELECT third_exp_info FROM student WHERE student_id = $studentID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {

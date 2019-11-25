@@ -313,35 +313,44 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
 
         <div class="nav membership-cart">
           	<?php 
-          		if (isset($_SESSION['userEmail'])) {
-          			echo '
-          			<span id="member-login" class="wsite-custom-membership-wrapper">
+          		if (isset($_SESSION['loggedIn'])) {
+          	?>
+								<span id="member-login" class="wsite-custom-membership-wrapper">
           			<a id="wsite-nav-signup-a">
           				<div class="dropdown">
-          					<button class="dropbtn">', 
-          						$_SESSION['userName'],
-          					'</button>
-          				<div class="dropdown-content">';
+          					<button class="dropbtn">
+          						<?php echo $_SESSION['userName']; ?>
+          					</button>
+          				<div class="dropdown-content">
+						<?php
           			if ($_SESSION['userType'] == "Student") {
-          				echo '<a href="business/student.php" target="_blank">My Profile</a>';
+          	?>
+									<a href="business/student.php" target="_blank">My Profile</a>
+						<?php
           			} elseif ($_SESSION['userType'] == "Mentor") {
-									echo '<a href="business/mentor.php" target="_blank">My Profile</a>';
+						?>
+									<a href="business/mentor.php" target="_blank">My Profile</a>
+						<?php
 								} elseif ($_SESSION['userType'] == "Company") {
-									echo '<a href="business/company.php" target="_blank">My Profile</a>';
+						?>
+									<a href="business/company.php" target="_blank">My Profile</a>
+						<?php
 								}
-          				echo '
-          					<form action="includes/user-management/logout.inc.php" method="POST">
+						?>
+									<form action="includes/user-management/logout.inc.php" method="POST">
 						    <a ><button id="btn" type="submit" name="logout">Logout</button></a>
 						    </form>
           					</div>
           				</div>
           			</a></span>
-          	';
-          		} else {
-          			echo '<span id="member-signup" class="wsite-custom-membership-wrapper">
+						<?php
+          	} else {
+						?>
+								<span id="member-signup" class="wsite-custom-membership-wrapper">
           		<a href="business/sign-up.php" id="wsite-nav-signup-a"><button class="button">Sign Up</button></a></span>
           		<span id="member-signin" class="wsite-custom-membership-wrapper">
-          		<a href="business/login.php" id="wsite-nav-signin-a"><button class="button">Login</button></a></span>';
+          		<a href="business/login.php" id="wsite-nav-signin-a"><button class="button">Login</button></a></span>
+          	<?php
           		}
           	?>
         </div>

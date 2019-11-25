@@ -70,7 +70,6 @@ $(document).ready(function(){
                 $("#login").html("Logging-in...");
             },
             success: function(resp){
-              alert(resp);
                 if(resp=="success"){
                     $("#login").html("<img src='../images/ajax-loader.gif' width='15'/> &nbsp; Logging-in");
                     setTimeout('window.location.href = "../index.php";',4000);

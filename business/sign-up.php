@@ -586,8 +586,6 @@ $('#myform').validate({
                     $("#submit").html("Signing-up...");
                 },
                 success: function(resp){
-                  alert(form_data);
-                    alert(resp);
                     if(resp=="success"){
                         $("#submit").html("<img src='../images/ajax-loader.gif' width='15'/> &nbsp; Signing-up");
                         setTimeout('window.location.href = "../index.php";',4000);
