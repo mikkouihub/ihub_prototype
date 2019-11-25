@@ -168,6 +168,7 @@
             <!-- <a href="#blog"><i class="title-icon fa fa-pencil-square"></i>Blog</a> -->
             <!-- <a href="#contact"><i class="title-icon fa fa-envelope"></i>Contact</a> -->
             <a href="edit-student.php"><i class="title-icon fa fa-edit"></i>Edit Profile</a>
+            <form action="../includes/user-management/logout.inc.php" method="POST"><button type="submit" name="logout" style="background:none; border:none; padding-left: 23px"><i class="title-icon fa fa-sign-out"></i>Log out</button></form>
         </div>
 
         <!-- MENU BUTTON -->
