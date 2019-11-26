@@ -133,7 +133,7 @@ if (isset($_POST['_utf8'])) {
                         }
                       }
                     } elseif ($userType === "Mentor") {
-                      $sql = "INSERT INTO `mentor` (`mentor_id`, `full_name`, `contact_no`, `address`, `preparatory_educ`, `secondary_educ`, `higher_educ`, `user_ID`) VALUES (NULL, ?, '', '', '', '', '', ?);";
+                      $sql = "INSERT INTO `mentor` (`mentor_id`, `mentor_tagline`, `full_name`, `mentor_info`, `mentor_contact_no`, `mentor_address`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `mentor_header`, `mentor_photo`, `mentor_video`, `user_ID`) VALUES (NULL, '', ?, '', '', '', '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', ?);";
                       $stmt = mysqli_stmt_init($conn);
 
                       if (!mysqli_stmt_prepare($stmt, $sql)) {

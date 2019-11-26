@@ -10,13 +10,13 @@
   $userID = '';
   $fullName = '';
   $userEmail = '';
-  $studentID = '';
+  $mentorID = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
     $fullName = $_SESSION['userName'];
     $userEmail = $_SESSION['userEmail'];
-    $studentID = $_SESSION['studentID'];
+    $mentorID = $_SESSION['mentorID'];
   }
 ?>
 
@@ -119,7 +119,7 @@
             <a href="#pricing-table"><i class="title-icon fa fa-money"></i>Pricing</a>
             <a href="#blog"><i class="title-icon fa fa-pencil-square"></i>Blog</a>
             <a href="#contact"><i class="title-icon fa fa-envelope"></i>Contact</a> -->
-            <a href="student.php"><i class="title-icon fa fa-save"></i>Go to Profile</a>
+            <a href="mentor.php"><i class="title-icon fa fa-save"></i>Go to Profile</a>
         </div>
 
         <!-- MENU BUTTON -->
@@ -134,7 +134,7 @@
 
     <!--HEADER BACKGROUND-->
     <?php
-        // $sql = "SELECT * FROM student WHERE student_id = $studentID";
+        // $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
         // $stmt = mysqli_stmt_init($conn);
 
         // if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -182,7 +182,7 @@
                     <!-- PROFILE PICTURE -->
                     <div id="profile" class="right">
                         <?php
-                            // $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            // $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             // $stmt = mysqli_stmt_init($conn);
 
                             // if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -227,7 +227,7 @@
                     <div class="card-content">
 
                         <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -241,7 +241,7 @@
                                     <!-- NAME & STATUS -->
                                 <div class="info-headings">
                                     <h4 class="text-uppercase left"><?php echo $fullName; ?></h4>
-                                    <h6 class="text-capitalize left"><input type="text" id="student_tagline" name="student_tagline" placeholder="Enter Company Tagline" value="<?php echo $row['student_tagline']; ?>"/></h6>
+                                    <h6 class="text-capitalize left"><input type="text" id="mentor_tagline" name="mentor_tagline" placeholder="Enter Company Tagline" value="<?php echo $row['mentor_tagline']; ?>"/></h6>
                                 </div>
 
                                     <!-- CONTACT INFO -->
@@ -249,7 +249,7 @@
                                     <ul class="profile-list">
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">email</i></span>
-                                            <span class="content"><input type="text" id="student_email" name="student_email" placeholder="Enter Student Email" value="<?php /** echo $row['student_email']; */ ?>"/></span>
+                                            <span class="content"><input type="text" id="mentor_email" name="mentor_email" placeholder="Enter Student Email" value="<?php /** echo $row['mentor_email']; */ ?>"/></span>
                                         </li>
                                         <!-- <li class="clearfix">
                                             <span class="title"><i class="material-icons">language</i></span>
@@ -262,11 +262,11 @@
                                         </li> -->
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">phone</i></span>
-                                            <span class="content"><input type="text" id="student_contact_no" name="student_contact_no" placeholder="Enter Student Contact Details" value="<?php echo $row['student_contact_no']; ?>"/></span>
+                                            <span class="content"><input type="text" id="mentor_contact_no" name="mentor_contact_no" placeholder="Enter Student Contact Details" value="<?php echo $row['mentor_contact_no']; ?>"/></span>
                                         </li>
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">place</i></span>
-                                            <span class="content"><input type="text" id="student_address" name="student_address" placeholder="Enter Student Address" value="<?php echo $row['student_address']; ?>"/></span>
+                                            <span class="content"><input type="text" id="mentor_address" name="mentor_address" placeholder="Enter Student Address" value="<?php echo $row['mentor_address']; ?>"/></span>
                                         </li>
 
                                     </ul>
@@ -301,7 +301,7 @@
                         .videoWrapper iframe {margin: auto; width: 100%; height: 100%;}
                     </style>
                     <?php
-                        $sql = "SELECT * FROM company WHERE company_ID = $studentID";
+                        $sql = "SELECT * FROM company WHERE company_ID = $mentorID";
                         $stmt = mysqli_stmt_init($conn);
 
                         if (!mysqli_stmt_prepare($stmt, $sql)) {   
@@ -353,7 +353,7 @@
                         <!-- ABOUT PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT student_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT mentor_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -364,7 +364,7 @@
 
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                    <textarea name="student_info" id="student_info" placeholder="Update information about the company..." ><?php echo $row['student_info']; ?></textarea>
+                                    <textarea name="mentor_info" id="mentor_info" placeholder="Update information about the company..." ><?php echo $row['mentor_info']; ?></textarea>
                             <?php
                                     }
                                 }
@@ -389,66 +389,6 @@
 
         <div id="timeline-education">
 
-            <!-- FIRST TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><h6>P</h6></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Preparatory Education</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                            <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
-                            $stmt = mysqli_stmt_init($conn);
-                            
-                            if (!mysqli_stmt_prepare($stmt, $sql)) {
-                              die('SQL Failed: ' . mysqli_error($conn));
-                            } else {
-                              mysqli_stmt_execute($stmt);
-                              $result = mysqli_stmt_get_result($stmt);
-
-                              while ($row = mysqli_fetch_assoc($result)) {
-                        ?>
-                                <small><input type="text" id="preparatory_name" name="preparatory_name" placeholder="School Name" value="<?php echo $row['preparatory_name']; ?>"/></small>
-
-                             
-                            </h6>
-                            <h6>
-                            <small>From:<input type="date" id="preparatory_start" name="preparatory_start" placeholder="Start Date" value="<?php echo $row['preparatory_start']; ?>"/></small>
-                            <small>To:<input type="date" id="preparatory_finish" name="preparatory_finish" placeholder="Finish Date" value="<?php echo $row['preparatory_finish']; ?>"/></small>
-                            <?php } } ?>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                        <?php
-                                $sql = "SELECT preparatory_info FROM student WHERE student_id = $studentID";
-                                $stmt = mysqli_stmt_init($conn);
-                                
-                                if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                    die('SQL Failed: ' . mysqli_error($conn));
-                                } else {
-                                    mysqli_stmt_execute($stmt);
-                                    $result = mysqli_stmt_get_result($stmt);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                                    <textarea name="preparatory_info" id="preparatory_info" placeholder="Update information about preparatory education..." ><?php echo $row['preparatory_info']; ?></textarea>
-                            <?php
-                                    }
-                                }
-                            ?>
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        
-                    </div>
-                </div>
-            </div>
-
             <!-- SECOND TIMELINE -->
             <div class="timeline-block">
                 <!-- DOT -->
@@ -462,7 +402,7 @@
                         <div class="timeline-info">
                             <h6>
                             <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -486,7 +426,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT secondary_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT secondary_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -520,7 +460,7 @@
                         <div class="timeline-info">
                             <h6>
                             <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -543,7 +483,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT higher_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT higher_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -605,7 +545,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -633,7 +573,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT first_exp_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT first_exp_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -664,7 +604,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -691,7 +631,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT second_exp_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT second_exp_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -721,7 +661,7 @@
                 <div class="card timeline-content">
                     <div class="card-content">
                     <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -748,7 +688,7 @@
                         <!-- TIMELINE PARAGRAPH -->
                         <p>
                         <?php
-                                $sql = "SELECT third_exp_info FROM student WHERE student_id = $studentID";
+                                $sql = "SELECT third_exp_info FROM mentor WHERE mentor_id = $mentorID";
                                 $stmt = mysqli_stmt_init($conn);
                                 
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -1215,18 +1155,18 @@
             if (result.value) {
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/student-info-update.inc.php',
+                    url: 'includes/profile/mentor-info-update.inc.php',
                     data: formData,
                     success: function (data) {
-                        console.log(data);
+                        alert(data);
                         swalWithBootstrapButtons.fire(
                             'Changes Saved!',
                             'Your changes has been saved.',
                             'success'
                         )
-                        window.setTimeout(function(){ 
-                            location.reload();
-                        }, 750);
+                        // window.setTimeout(function(){ 
+                        //     location.reload();
+                        // }, 750);
                     },
                     error: function() {
                         swalWithBootstrapButtons.fire(
