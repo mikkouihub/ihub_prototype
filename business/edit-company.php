@@ -139,7 +139,7 @@
             <a href="#about"><i class="title-icon fa fa-dashboard"></i>About</a>
             <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Portfolios</a>
             <a href="#testimonials"><i class="title-icon fa fa-users"></i>Testimonials</a>
-            <a href="#" onclick="logOut()"><i class="title-icon fa fa-sign-out"></i>Log out</a>
+            <a href="company.php"><i class="title-icon fa fa-save"></i>Go to Profile</a>
         </div>
 
         <!-- MENU BUTTON -->

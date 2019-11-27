@@ -1,3 +1,76 @@
+<?php
+  session_start();
+
+  require '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
+ 
+?>
+
+<?php
+  $userID = '';
+  $fullName = '';
+  $userEmail = '';
+  $mentorID = '';
+  $mentor_url = '';
+
+  if (isset($_SESSION['loggedIn'])) {
+    $userID = $_SESSION['userID'];
+    $fullName = $_SESSION['userName'];
+    $userEmail = $_SESSION['userEmail'];
+    $mentorID = $_SESSION['mentorID'];
+    $mentor_url = $_SESSION['mentor_url'];
+  }
+?>
+
+<?php
+//   if (isset($_GET['company'])) {
+//     $companyName = $_GET['company'];
+
+//     $sql = "SELECT * FROM company WHERE company_url = ?";
+//     $stmt = mysqli_stmt_init($conn);
+  
+//     if (!mysqli_stmt_prepare($stmt, $sql)) {
+//       die('SQL Failed: ' . mysqli_error($conn));
+//     } else {
+//       mysqli_stmt_bind_param($stmt, "s", $companyName);
+//       mysqli_stmt_execute($stmt);
+      
+//       $result = mysqli_stmt_get_result($stmt);
+  
+//       while ($row = mysqli_fetch_assoc($result)) {
+//           $companyID = $row['company_ID'];
+//           $companyName = $row['company_name'];
+//           $companyEmail = $row['company_email'];
+//           $companyAddress = $row['company_address'];
+//           $companyContactNo = $row['company_contact_number'];
+//           $companyBusinessType = $row['company_business_type'];
+//           $companyURL = $row['company_url'];
+//         //   $companyOwnerImage = $_SESSION['companyOwnerImage'];
+//         //   $companyLogoImage = $_SESSION['companyLogoImage'];
+//         //   $companyHeaderImage = $_SESSION['companyHeaderImage'];
+//         //   $companyVideos = $_SESSION['companyVideos'];
+//           $companyTagline = $row['company_tagline'];
+//           $companyInfo = $row['company_info'];
+//           $companyOwnerInfo = $row['company_owner_info'];
+//       }
+  
+//       $sql = "SELECT * FROM user WHERE user_ID = $companyID";
+//       $stmt = mysqli_stmt_init($conn);
+  
+//       if (!mysqli_stmt_prepare($stmt, $sql)) {
+//           die('SQL Failed: ' . mysqli_error($conn));
+//       } else {
+//           mysqli_stmt_execute($stmt);
+          
+//           $result = mysqli_stmt_get_result($stmt);
+  
+//           while ($row_user = mysqli_fetch_assoc($result)) {
+//               $userID = $row_user['user_ID'];
+//               $fullName = $row_user['user_name'];
+//           }
+//       }
+//     }
+//   }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +184,33 @@
     </nav>
 
     <!--HEADER BACKGROUND-->
-    <div class="header-background section"></div>
+    <?php
+        $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            die('SQL Failed: ' . mysqli_error($conn));
+        } else {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $headerImage = $row['mentor_header_image'];
+
+                if (empty($headerImage)) {
+    ?>
+                    <div class="header-background section" id="header_background_image"></div>
+    <?php
+                } else {
+                    $fileLocation = 'mentors' . DIRECTORY_SEPARATOR . $mentor_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'mentor_header' . DIRECTORY_SEPARATOR . $headerImage;
+    ?>
+                    <div class="header-background section" id="header_background_image" style="background-image: url(mentors/<?php echo $mentor_url; ?>/profile/mentor_header/<?php echo $headerImage; ?>)">
+                    </div>
+    <?php
+                }
+            }
+        }
+    ?>
 
 </header>
 
@@ -129,11 +228,36 @@
 
                     <!-- PROFILE PICTURE -->
                     <div id="profile" class="right">
-                        <img alt="profile-image" class="img-responsive" src="images/profile/profile.png">
-                        <div class="slant"></div>
+                    <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                                mysqli_stmt_execute($stmt);
+                                $result = mysqli_stmt_get_result($stmt);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $logoImage = $row['mentor_owner_image'];
+
+                                    if (empty($logoImage)) {
+                        ?>
+                                        <img alt="profile-image" class="img-responsive" id="logo_image" src="images/profile/profile.png">
+                        <?php
+                                    } else {
+                                        $fileLocation = 'mentors' . DIRECTORY_SEPARATOR . $mentor_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'mentor_owner' . DIRECTORY_SEPARATOR . $logoImage; 
+                        ?>
+                                        <img alt="profile-image" class="img-responsive" id="logo_image" src="mentors/<?php echo $mentor_url; ?>/profile/mentor_owner/<?php echo $logoImage; ?>">
+                        <?php
+                                    }
+                                }
+                            }
+                        ?>
+                        <!-- <div class="slant"></div> -->
 
                         <!--EMPTY PLUS BUTTON-->
-                        <div class="btn-floating btn-large add-btn"><i class="material-icons">add</i></div>
+                        <!-- <div class="btn-floating btn-large add-btn"><i class="material-icons">add</i></div> -->
 
                         <!--VIDEO PLAY BUTTON-->
                         <!--<div id="button-holder" class="btn-holder">
@@ -185,17 +309,17 @@
                         <!--LINKS-->
                         <div class="links">
                             <!-- FACEBOOK-->
-                            <a href="https://www.facebook.com/<?php echo $row['student_facebook']; ?>" target = "_blank" id="first_one"
+                            <a href="https://www.facebook.com/<?php echo $row['mentor_facebook']; ?>" target = "_blank" id="first_one"
                                class="social btn-floating indigo"><i
                                     class="fa fa-facebook"></i></a>
                             <!-- TWITTER-->
-                            <a href="https://twitter.com/<?php echo $row['student_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
+                            <a href="https://twitter.com/<?php echo $row['mentor_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
                                     class="fa fa-twitter"></i></a>
                             <!-- GOOGLE+-->
-                            <a href="https://www.instagram.com/<?php echo $row['student_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
+                            <a href="https://www.instagram.com/<?php echo $row['mentor_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
                                     class="fa fa-instagram"></i></a>
                             <!-- LINKEDIN-->
-                            <a href="https://www.linkedin.com/in/<?php echo $row['student_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
+                            <a href="https://www.linkedin.com/in/<?php echo $row['mentor_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
                                     class="fa fa-linkedin"></i></a>
                         </div>
                     </div>

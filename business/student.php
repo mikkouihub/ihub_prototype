@@ -10,12 +10,14 @@
   $fullName = '';
   $userEmail = '';
   $studentID = '';
+  $student_url = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
     $fullName = $_SESSION['userName'];
     $userEmail = $_SESSION['userEmail'];
     $studentID = $_SESSION['studentID'];
+    $student_url = $_SESSION['student_url'];
   }
 ?>
 
@@ -183,31 +185,31 @@
 
     <!--HEADER BACKGROUND-->
     <?php
-        // $sql = "SELECT * FROM student WHERE student_id = $studentID";
-        // $stmt = mysqli_stmt_init($conn);
+        $sql = "SELECT * FROM student WHERE student_id = $studentID";
+        $stmt = mysqli_stmt_init($conn);
 
-        // if (!mysqli_stmt_prepare($stmt, $sql)) {
-        //     die('SQL Failed: ' . mysqli_error($conn));
-        // } else {
-        //     mysqli_stmt_execute($stmt);
-        //     $result = mysqli_stmt_get_result($stmt);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            die('SQL Failed: ' . mysqli_error($conn));
+        } else {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
-        //     while ($row = mysqli_fetch_assoc($result)) {
-        //         $headerImage = $row['company_header_image'];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $headerImage = $row['student_header_image'];
 
-        //         if (empty($headerImage)) {
+                if (empty($headerImage)) {
     ?>
                     <div class="header-background section" id="header_background_image"></div>
     <?php
-                // } else {
-                //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_header' . DIRECTORY_SEPARATOR . $headerImage;
+                } else {
+                    $fileLocation = 'students' . DIRECTORY_SEPARATOR . $student_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'student_header' . DIRECTORY_SEPARATOR . $headerImage;
     ?>
-                    <!-- <div class="header-background section" id="header_background_image" style="background-image: url(companies/<?php echo $companyURL; ?>/profile/company_header/<?php echo $headerImage; ?>)">
-                    </div> -->
+                    <div class="header-background section" id="header_background_image" style="background-image: url(students/<?php echo $student_url; ?>/profile/student_header/<?php echo $headerImage; ?>)">
+                    </div>
     <?php
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
     ?>
 </header>
 
@@ -225,43 +227,43 @@
                     <!-- PROFILE PICTURE -->
                     <div id="profile" class="right">
                         <?php
-                            // $sql = "SELECT * FROM student WHERE student_id = $studentID";
-                            // $stmt = mysqli_stmt_init($conn);
+                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $stmt = mysqli_stmt_init($conn);
 
-                            // if (!mysqli_stmt_prepare($stmt, $sql)) {
-                            //     die('SQL Failed: ' . mysqli_error($conn));
-                            // } else {
-                            //     mysqli_stmt_execute($stmt);
-                            //     $result = mysqli_stmt_get_result($stmt);
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                                mysqli_stmt_execute($stmt);
+                                $result = mysqli_stmt_get_result($stmt);
 
-                            //     while ($row = mysqli_fetch_assoc($result)) {
-                            //         $logoImage = $row['company_logo_image'];
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $logoImage = $row['student_owner_image'];
 
-                            //         if (empty($logoImage)) {
+                                    if (empty($logoImage)) {
                         ?>
                                         <img alt="profile-image" class="img-responsive" id="logo_image" src="images/profile/profile.png">
                         <?php
-                                    // } else {
-                                    //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_logo' . DIRECTORY_SEPARATOR . $logoImage; 
+                                    } else {
+                                        $fileLocation = 'students' . DIRECTORY_SEPARATOR . $student_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'student_owner' . DIRECTORY_SEPARATOR . $logoImage; 
                         ?>
-                                        <!-- <img alt="profile-image" class="img-responsive" id="logo_image" src="companies/<?php echo $companyURL; ?>/profile/company_logo/<?php echo $logoImage; ?>"> -->
+                                        <img alt="profile-image" class="img-responsive" id="logo_image" src="students/<?php echo $student_url; ?>/profile/student_owner/<?php echo $logoImage; ?>">
                         <?php
-                            //         }
-                            //     }
-                            // }
+                                    }
+                                }
+                            }
                         ?>
 
-                        <div class="slant"></div> 
+                        <!-- <div class="slant"></div>  -->
 
                         <!--EMPTY PLUS BUTTON-->
                         <!-- <div class="btn-floating btn-large add-btn"><i class="material-icons">add</i></div> -->
 
                         <!--VIDEO PLAY BUTTON-->
-                        <div id="button-holder" class="btn-holder">
+                        <!-- <div id="button-holder" class="btn-holder">
                             <div id="play-btn" class="btn-floating btn-large btn-play">
                                 <i id="icon-play" class="material-icons">play_arrow</i>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!--VIDEO CLOSE BUTTON-->
                     <!--<div id="close-btn" class="btn-floating icon-close">
