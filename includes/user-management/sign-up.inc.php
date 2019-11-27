@@ -76,13 +76,13 @@ if (isset($_POST['_utf8'])) {
                     $user_fk = mysqli_insert_id($conn);
 
                     if ($userType === "Student") {
-                      $sql = "INSERT INTO `student` (`student_id`, `student_tagline`, `full_name`, `student_info`, `student_contact_no`, `student_address`, `preparatory_name`, `preparatory_start`, `preparatory_finish`, `preparatory_info`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `student_facebook`, `student_twitter`, `student_instagram`, `student_linkedin`, `student_header`, `student_video`, `student_photo`, `user_ID`) VALUES (NULL, '', ?, '', '', '', '', NULL, NULL, '', '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', '', '', '', '', ?);";
+                      $sql = "INSERT INTO `student` (`student_id`, `student_tagline`, `full_name`, `student_info`, `student_contact_no`, `student_address`, `student_url`, `preparatory_name`, `preparatory_start`, `preparatory_finish`, `preparatory_info`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `student_facebook`, `student_twitter`, `student_instagram`, `student_linkedin`, `student_header`, `student_video`, `student_photo`, `user_ID`) VALUES (NULL, '', ?, '', '', '', ?, '', NULL, NULL, '', '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', '', '', '', '', ?);";
                       $stmt = mysqli_stmt_init($conn);
 
                       if (!mysqli_stmt_prepare($stmt, $sql)) {
                         die('SQL Failed: ' . mysqli_error($conn));
                       } else {
-                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        mysqli_stmt_bind_param($stmt, "sss", $fullname, $url, $user_fk);
                         mysqli_stmt_execute($stmt);
 
                         $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url;
@@ -124,6 +124,7 @@ if (isset($_POST['_utf8'])) {
                             $_SESSION['userEmail'] = $row['user_email'];
                             $_SESSION['userType'] = $row['user_type'];
 
+                            $_SESSION['student_url'] = $row['student_url'];
                             $_SESSION['studentID'] = $row['student_id'];
                             // $_SESSION['url'] = $row['company_url'];
 
@@ -133,13 +134,13 @@ if (isset($_POST['_utf8'])) {
                         }
                       }
                     } elseif ($userType === "Mentor") {
-                      $sql = "INSERT INTO `mentor` (`mentor_id`, `mentor_tagline`, `full_name`, `mentor_info`, `mentor_contact_no`, `mentor_address`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `mentor_header`, `mentor_photo`, `mentor_video`, `user_ID`) VALUES (NULL, '', ?, '', '', '', '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', ?);";
+                      $sql = "INSERT INTO `mentor` (`mentor_id`, `mentor_tagline`, `full_name`, `mentor_info`, `mentor_contact_no`, `mentor_address`, `mentor_url`, `secondary_name`, `secondary_start`, `secondary_finish`, `secondary_info`, `higher_name`, `higher_start`, `higher_finish`, `higher_info`, `first_exp_title`, `first_exp_company`, `first_exp_start`, `first_exp_finish`, `first_exp_info`, `second_exp_title`, `second_exp_company`, `second_exp_start`, `second_exp_finish`, `second_exp_info`, `third_exp_title`, `third_exp_company`, `third_exp_start`, `third_exp_finish`, `third_exp_info`, `mentor_header`, `mentor_photo`, `mentor_video`, `user_ID`) VALUES (NULL, '', ?, '', '', '', ?, '', NULL, NULL, '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', ?);";
                       $stmt = mysqli_stmt_init($conn);
 
                       if (!mysqli_stmt_prepare($stmt, $sql)) {
                         die('SQL Failed: ' . mysqli_error($conn));
                       } else {
-                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        mysqli_stmt_bind_param($stmt, "sss", $fullname, $url, $user_fk);
                         mysqli_stmt_execute($stmt);
 
                         $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url;
@@ -181,6 +182,7 @@ if (isset($_POST['_utf8'])) {
                             $_SESSION['userEmail'] = $row['user_email'];
                             $_SESSION['userType'] = $row['user_type'];
 
+                            $_SESSION['mentor_url'] = $row['mentor_url'];
                             $_SESSION['mentorID'] = $row['mentor_id'];
                             // $_SESSION['url'] = $row['company_url'];
 
@@ -190,13 +192,13 @@ if (isset($_POST['_utf8'])) {
                         }
                       }
                     } elseif ($userType === "Company") {
-                      $sql = "INSERT INTO `company` (`company_ID`, `company_name`, `company_email`, `company_address`, `company_contact_number`, `company_business_type`, `company_business_category`, `company_info`, `company_owner_info`, `company_tagline`, `company_url`, `company_header_image`, `company_logo_image`, `company_owner_image`, `company_videos`, `user_ID`) VALUES (NULL, ?, '', '', '', '', '', '', '', '', '', '', '', '', '', ?);";
+                      $sql = "INSERT INTO `company` (`company_ID`, `company_name`, `company_email`, `company_address`, `company_contact_number`, `company_business_type`, `company_business_category`, `company_info`, `company_owner_info`, `company_tagline`, `company_url`, `company_header_image`, `company_logo_image`, `company_owner_image`, `company_videos`, `user_ID`) VALUES (NULL, ?, '', '', '', '', '', '', '', '', ?, '', '', '', '', ?);";
                       $stmt = mysqli_stmt_init($conn);
 
                       if (!mysqli_stmt_prepare($stmt, $sql)) {
                         die('SQL Failed: ' . mysqli_error($conn));
                       } else {
-                        mysqli_stmt_bind_param($stmt, "ss", $fullname, $user_fk);
+                        mysqli_stmt_bind_param($stmt, "sss", $fullname, $url, $user_fk);
                         
                         if (mysqli_stmt_execute($stmt)) {
                           $company_fk = mysqli_insert_id($conn);
@@ -265,7 +267,7 @@ if (isset($_POST['_utf8'])) {
                                 $_SESSION['companyAddress'] = $row['company_address'];
                                 $_SESSION['contactNo'] = $row['company_contact_number'];
                                 $_SESSION['companyEmail'] = $row['company_email'];
-                                $_SESSION['url'] = $row['company_url'];
+                                $_SESSION['company_url'] = $row['company_url'];
                                 
                                 // $_SESSION['companyOwnerImage'] = $row['company_owner_image'];
                                 // $_SESSION['companyLogoImage'] = $row['company_logo_image'];

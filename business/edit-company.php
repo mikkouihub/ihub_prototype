@@ -1087,7 +1087,7 @@
             if (result.value) {
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/info-update.inc.php',
+                    url: 'includes/profile/company-info-update.inc.php',
                     data: formData,
                     success: function (data) {
                         console.log(data);

@@ -187,6 +187,7 @@
             <a href="#about"><i class="title-icon fa fa-dashboard"></i>About</a>
             <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Portfolios</a>
             <a href="#testimonials"><i class="title-icon fa fa-users"></i>Testimonials</a>
+            <a href="edit-company.php"><i class="title-icon fa fa-edit"></i>Edit Profile</a>
         </div>
 
         <!-- MENU BUTTON -->

@@ -70,6 +70,7 @@ if (isset($_POST['submit'])) {
                   while ($row_company = mysqli_fetch_assoc($result)) {
 
                     $_SESSION['studentID'] = $row_company['student_id'];
+                    $_SESSION['student_url'] = $row_company['student_url'];
 
                     echo "success";
                     exit();
@@ -98,6 +99,7 @@ if (isset($_POST['submit'])) {
                   while ($row_company = mysqli_fetch_assoc($result)) {
 
                     $_SESSION['mentorID'] = $row_company['mentor_id'];
+                    $_SESSION['mentor_url'] = $row_company['mentor_url'];
 
                     echo "success";
                     exit();
@@ -131,7 +133,7 @@ if (isset($_POST['submit'])) {
                     $_SESSION['companyAddress'] = $row_company['company_address'];
                     $_SESSION['contactNo'] = $row_company['company_contact_number'];
                     $_SESSION['companyEmail'] = $row_company['company_email'];
-                    $_SESSION['url'] = $row_company['company_url'];
+                    $_SESSION['company_url'] = $row_company['company_url'];
                     
                     // $_SESSION['companyOwnerImage'] = $row_company['company_owner_image'];
                     // $_SESSION['companyLogoImage'] = $row_company['company_logo_image'];
