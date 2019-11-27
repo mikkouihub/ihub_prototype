@@ -11,12 +11,14 @@
   $fullName = '';
   $userEmail = '';
   $mentorID = '';
+  $mentor_url = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
     $fullName = $_SESSION['userName'];
     $userEmail = $_SESSION['userEmail'];
     $mentorID = $_SESSION['mentorID'];
+    $mentor_url = $_SESSION['mentor_url'];
   }
 ?>
 
@@ -134,31 +136,31 @@
 
     <!--HEADER BACKGROUND-->
     <?php
-        // $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
-        // $stmt = mysqli_stmt_init($conn);
+        $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+        $stmt = mysqli_stmt_init($conn);
 
-        // if (!mysqli_stmt_prepare($stmt, $sql)) {
-        //     die('SQL Failed: ' . mysqli_error($conn));
-        // } else {
-        //     mysqli_stmt_execute($stmt);
-        //     $result = mysqli_stmt_get_result($stmt);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            die('SQL Failed: ' . mysqli_error($conn));
+        } else {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
-        //     while ($row = mysqli_fetch_assoc($result)) {
-        //         $headerImage = $row['company_header_image'];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $headerImage = $row['mentor_header_image'];
 
-        //         if (empty($headerImage)) {
+                if (empty($headerImage)) {
     ?>
                     <div class="header-background section" id="header_background_image" onclick="setHeader()"></div>
     <?php
-                // } else {
-                //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_header' . DIRECTORY_SEPARATOR . $headerImage;
+                } else {
+                    $fileLocation = 'mentors' . DIRECTORY_SEPARATOR . $mentor_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'mentor_header' . DIRECTORY_SEPARATOR . $headerImage;
     ?>
-                    <!-- <div class="header-background section" id="header_background_image" onclick="setHeader()" style="background-image: url(companies/<?php echo $companyURL; ?>/profile/company_header/<?php echo $headerImage; ?>)">
-                    </div> -->
+                    <div class="header-background section" id="header_background_image" onclick="setHeader()" style="background-image: url(mentors/<?php echo $mentor_url; ?>/profile/mentor_header/<?php echo $headerImage; ?>)">
+                    </div>
     <?php
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
     ?>
 
 </header>
@@ -182,30 +184,30 @@
                     <!-- PROFILE PICTURE -->
                     <div id="profile" class="right">
                         <?php
-                            // $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
-                            // $stmt = mysqli_stmt_init($conn);
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
 
-                            // if (!mysqli_stmt_prepare($stmt, $sql)) {
-                            //     die('SQL Failed: ' . mysqli_error($conn));
-                            // } else {
-                            //     mysqli_stmt_execute($stmt);
-                            //     $result = mysqli_stmt_get_result($stmt);
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                                mysqli_stmt_execute($stmt);
+                                $result = mysqli_stmt_get_result($stmt);
 
-                            //     while ($row = mysqli_fetch_assoc($result)) {
-                            //         $logoImage = $row['company_logo_image'];
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $logoImage = $row['mentor_owner_image'];
 
-                            //         if (empty($logoImage)) {
+                                    if (empty($logoImage)) {
                         ?>
                                         <img alt="profile-image" class="img-responsive" id="logo_image" onclick="setLogo()" src="images/profile/profile.png">
                         <?php
-                                    // } else {
-                                    //     $fileLocation = 'companies' . DIRECTORY_SEPARATOR . $companyURL . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'company_logo' . DIRECTORY_SEPARATOR . $logoImage; 
+                                    } else {
+                                        $fileLocation = 'mentors' . DIRECTORY_SEPARATOR . $mentor_url . DIRECTORY_SEPARATOR . 'profile' . DIRECTORY_SEPARATOR . 'mentor_owner' . DIRECTORY_SEPARATOR . $logoImage; 
                         ?>
-                                        <!-- <img alt="profile-image" class="img-responsive" id="logo_image" onclick="setLogo()" src="companies/<?php echo $companyURL; ?>/profile/company_logo/<?php echo $logoImage; ?>"> -->
+                                        <img alt="profile-image" class="img-responsive" id="logo_image" onclick="setLogo()" src="mentors/<?php echo $mentor_url; ?>/profile/mentor_owner/<?php echo $logoImage; ?>">
                         <?php
-                            //         }
-                            //     }
-                            // }
+                                    }
+                                }
+                            }
                         ?>
                         <div class="slant"></div>
 
@@ -1099,17 +1101,17 @@
             },
             inputAttributes: {
                 'accept': 'image/*',
-                'aria-label': 'Upload your company logo'
+                'aria-label': 'Upload your profile picture'
             }
         }).then((file) => {
             if (file.value) {
                 var formData = new FormData();
                 var file = $('.swal2-file')[0].files[0];
-                formData.append("file_logo", file);
+                formData.append("file_owner", file);
                 $.ajax({
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     method: 'POST',
-                    url: 'includes/profile/logo-upload.inc.php',
+                    url: 'includes/profile/owner-upload.inc.php',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1118,7 +1120,7 @@
                     },
                     success: function (resp) {
                         $('#logo_image').html(resp);
-                        Swal.fire('Uploaded', 'Your company logo has been uploaded', 'success');
+                        Swal.fire('Uploaded', 'Your profile picture has been uploaded', 'success');
                     },
                     error: function() {
                         Swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' })

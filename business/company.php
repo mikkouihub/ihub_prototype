@@ -33,7 +33,7 @@
     $companyAddress = $_SESSION['companyAddress'];
     $companyContactNo = $_SESSION['contactNo'];
     $companyBusinessType = $_SESSION['businessType'];
-    $companyURL = $_SESSION['url'];
+    $companyURL = $_SESSION['company_url'];
     // $companyOwnerImage = $_SESSION['companyOwnerImage'];
     // $companyLogoImage = $_SESSION['companyLogoImage'];
     // $companyHeaderImage = $_SESSION['companyHeaderImage'];

@@ -50,7 +50,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('students/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('students/<?php echo $_SESSION['student_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }
@@ -67,7 +67,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('students/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('students/<?php echo $_SESSION['student_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }
@@ -122,7 +122,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('mentors/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('mentors/<?php echo $_SESSION['mentor_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }
@@ -139,7 +139,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('mentors/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('mentors/<?php echo $_SESSION['mentor_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }
@@ -194,7 +194,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('companies/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('companies/<?php echo $_SESSION['company_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }
@@ -211,7 +211,7 @@ if (isset($_SESSION['studentID'])) {
               <script>
                 var header_div = document.querySelector('#header_background_image');
     
-                header_div.style.backgroundImage = "url('companies/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
+                header_div.style.backgroundImage = "url('companies/<?php echo $_SESSION['company_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>')";
               </script>
     <?php
             }

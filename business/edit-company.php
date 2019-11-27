@@ -36,7 +36,7 @@
     $companyEmail = $_SESSION['companyEmail'];
     $companyAddress = $_SESSION['companyAddress'];
     $companyContactNo = $_SESSION['contactNo'];
-    $companyURL = $_SESSION['url'];
+    $companyURL = $_SESSION['company_url'];
     // $companyOwnerImage = $_SESSION['companyOwnerImage'];
     // $companyLogoImage = $_SESSION['companyLogoImage'];
     // $companyHeaderImage = $_SESSION['companyHeaderImage'];

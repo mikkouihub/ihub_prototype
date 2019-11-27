@@ -5,7 +5,7 @@ session_start();
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 $companyID = $_SESSION['companyID'];
-$url = $_SESSION['url'];
+$url = $_SESSION['company_url'];
 
 $targetDir = "company_logo";
 
@@ -48,7 +48,7 @@ if (!empty($_FILES['file_logo']['name'])) {
             <script>
               var logo_img = document.querySelector('#logo_image');
   
-              logo_img.src = "companies/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>";
+              logo_img.src = "companies/<?php echo $_SESSION['company_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>";
             </script>
   <?php
           }
@@ -65,7 +65,7 @@ if (!empty($_FILES['file_logo']['name'])) {
             <script>
               var logo_img = document.querySelector('#logo_image');
   
-              logo_img.src = "companies/<?php echo $_SESSION['url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>";
+              logo_img.src = "companies/<?php echo $_SESSION['company_url']; ?>/profile/<?php echo $targetDir; ?>/<?php echo $fileNameNew; ?>";
             </script>
   <?php
           }
