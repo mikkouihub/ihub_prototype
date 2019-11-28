@@ -4,17 +4,16 @@ session_start();
 
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
-$companyID = $_SESSION['companyID'];
+$mentorID = $_SESSION['mentorID'];
 
-if (!empty($_POST['twitter-link'])) {
-  
-  $link = trim(mysqli_real_escape_string($conn, $_POST['twitter-link']));
+if (!empty($_POST['linkedin-link'])) {
+  $link = trim(mysqli_real_escape_string($conn, $_POST['linkedin-link']));
 
-  preg_match("/(?:(?:http|https):\/\/)?(?:www.)?twitter.com\/([a-zA-Z0-9_]+)/", $link, $matches);
+  preg_match("/(?:(?:http|https):\/\/)?(?:www.)?linkedin\.com\/in\/([a-zA-Z0-9-]{5,30})\/?/", $link, $matches);
 
   $id = $matches[1];
 
-  $sql = "UPDATE `company_social_media` SET `media_twitter` = ? WHERE `company_social_media`.`company_ID` = $companyID;";
+  $sql = "UPDATE `mentor` SET `mentor_linkedin` = ? WHERE mentor_id = $mentorID;";
   $stmt = mysqli_stmt_init($conn);
 
   if (!mysqli_stmt_prepare($stmt, $sql)) {

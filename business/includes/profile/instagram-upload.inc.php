@@ -20,7 +20,7 @@ if (!empty($_POST['instagram-link'])) {
 
   $id = $matches[1];
 
-  $sql = "UPDATE `student` SET `student_instagram` = ? WHERE student_id = $companyID;";
+  $sql = "UPDATE `company_social_media` SET `media_instagram` = ? WHERE `company_social_media`.`company_ID` = $companyID;";
   $stmt = mysqli_stmt_init($conn);
 
   if (!mysqli_stmt_prepare($stmt, $sql)) {

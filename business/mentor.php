@@ -272,56 +272,71 @@
                     </div>-->
 
                     <div class="card-content">
+                        <?php
+                            $sql = "SELECT * FROM user, mentor WHERE user.user_ID = $mentorID AND mentor.mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
 
-                        <!-- NAME & STATUS -->
-                        <div class="info-headings">
-                            <h4 class="text-uppercase left">John DOE</h4>
-                            <h6 class="text-capitalize left">Software Engineer & UI/UX Expert</h6>
-                        </div>
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- NAME & STATUS -->
+                                <div class="info-headings">
+                                    <h4 class="text-uppercase left"><?php echo $fullName; ?></h4>
+                                    <h6 class="text-capitalize left"><?php echo $row['mentor_tagline']; ?></h6>
+                                </div>
 
-                        <!-- CONTACT INFO -->
-                        <div class="infos">
-                            <ul class="profile-list">
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">email</i></span>
-                                    <span class="content">email@mailprovider.com</span>
-                                </li>
-                                <!-- <li class="clearfix">
-                                    <span class="title"><i class="material-icons">language</i></span>
-                                    <span class="content">yourpersonalwebsite.com</span>
-                                </li> -->
-                                <!-- <li class="clearfix">
-                                    <span class="title"><i class="fa fa-skype" aria-hidden="true"></i></span>
-                                    <span class="content">yourusername@skype.com</span>
-                                </li> -->
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">phone</i></span>
-                                    <span class="content">+152 25634 254 846</span>
-                                </li>
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">place</i></span>
-                                    <span class="content">LampStreet 34/3, London, UK</span>
-                                </li>
+                                <!-- CONTACT INFO -->
+                                <div class="infos">
+                                    <ul class="profile-list">
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">email</i></span>
+                                            <span class="content"><?php echo $row['user_email']; ?></span>
+                                        </li>
+                                        <!-- <li class="clearfix">
+                                            <span class="title"><i class="material-icons">language</i></span>
+                                            <span class="content">yourpersonalwebsite.com</span>
+                                        </li> -->
+                                        <!-- <li class="clearfix">
+                                            <span class="title"><i class="fa fa-skype" aria-hidden="true"></i></span>
+                                            <span class="content">yourusername@skype.com</span>
+                                        </li> -->
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">phone</i></span>
+                                            <span class="content"><?php echo $row['mentor_contact_no']; ?></span>
+                                        </li>
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">place</i></span>
+                                            <span class="content"><?php echo $row['mentor_address']; ?></span>
+                                        </li>
 
-                            </ul>
-                        </div>
+                                    </ul>
+                                </div>
 
-                        <!--LINKS-->
-                        <div class="links">
-                            <!-- FACEBOOK-->
-                            <a href="https://www.facebook.com/<?php echo $row['mentor_facebook']; ?>" target = "_blank" id="first_one"
-                               class="social btn-floating indigo"><i
-                                    class="fa fa-facebook"></i></a>
-                            <!-- TWITTER-->
-                            <a href="https://twitter.com/<?php echo $row['mentor_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
-                                    class="fa fa-twitter"></i></a>
-                            <!-- GOOGLE+-->
-                            <a href="https://www.instagram.com/<?php echo $row['mentor_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
-                                    class="fa fa-instagram"></i></a>
-                            <!-- LINKEDIN-->
-                            <a href="https://www.linkedin.com/in/<?php echo $row['mentor_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
-                                    class="fa fa-linkedin"></i></a>
-                        </div>
+                                <!--LINKS-->
+                                <div class="links">
+                                    <!-- FACEBOOK-->
+                                    <a href="https://www.facebook.com/<?php echo $row['mentor_facebook']; ?>" target = "_blank" id="first_one"
+                                    class="social btn-floating indigo"><i
+                                            class="fa fa-facebook"></i></a>
+                                    <!-- TWITTER-->
+                                    <a href="https://twitter.com/<?php echo $row['mentor_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
+                                            class="fa fa-twitter"></i></a>
+                                    <!-- GOOGLE+-->
+                                    <a href="https://www.instagram.com/<?php echo $row['mentor_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
+                                            class="fa fa-instagram"></i></a>
+                                    <!-- LINKEDIN-->
+                                    <a href="https://www.linkedin.com/in/<?php echo $row['mentor_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
+                                            class="fa fa-linkedin"></i></a>
+                                </div>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                     <!--HTML 5 VIDEO-->
                     <!-- <video id="html-video" class="video" poster="images/poster/poster.jpg" controls>
@@ -347,23 +362,35 @@
                     <div class="card-content">
                         <!-- ABOUT PARAGRAPH -->
                         <p>
-                            Hello! I’m John Doe. Senior Web Developer with over 13 years of experience
-                            specializing in front end development. Experienced with all stages of the
-                            development cycle for dynamic web projects.Having an in-depth knowledge
-                            including advanced HTML5, CSS, CSS3, SASS, LESS, JSON, XML, Java, JavaScript,
-                            JQuery, Angular JS. Strong background in management and leadership.
+                            <?php
+                                $sql = "SELECT mentor_info FROM mentor WHERE mentor_id = $mentorID";
+                                $stmt = mysqli_stmt_init($conn);
+                                
+                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                    die('SQL Failed: ' . mysqli_error($conn));
+                                } else {
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                        <p><?php echo $row['mentor_info']; ?></p>
+                            <?php
+                                    }
+                                }
+                            ?>
                         </p>
                     </div>
 
                     <!-- BUTTONS -->
-                    <div id="about-btn" class="card-action">
-                        <div class="about-btn">
+                    <!-- <div id="about-btn" class="card-action">
+                        <div class="about-btn"> -->
                             <!-- DOWNLOAD CV BUTTON -->
-                            <a href="#" class="btn waves-effect">Download CV</a>
+                            <!-- <a href="#" class="btn waves-effect">Download CV</a> -->
                             <!-- CONTACT BUTTON -->
-                            <a href="#contact" class="btn waves-effect">Contact Me</a>
+                            <!-- <a href="#contact" class="btn waves-effect">Contact Me</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -383,37 +410,6 @@
 
         <div id="timeline-education">
 
-            <!-- FIRST TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><h6>P</h6></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Preparatory Education</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Fedrick School</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 1997 - Mar 2000</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed my preparatory education from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        <a href="#" class="modal-dot" data-toggle="modal" data-target="#myModal-1">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <!-- SECOND TIMELINE -->
             <div class="timeline-block">
                 <!-- DOT -->
@@ -421,22 +417,43 @@
                 <!-- TIMELINE CONTENT -->
                 <div class="card timeline-content">
                     <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">High School</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>RedStreet College</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2000 - Mar 2005</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed my high school degree from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
+                        <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
+
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- TIMELINE TITLE -->
+                                <h6 class="timeline-title">High School</h6>
+                                <!-- TIMELINE TITLE INFO -->
+                                <div class="timeline-info">
+                                    <h6>
+                                        <small><?php echo $row['secondary_name']; ?></small>
+                                    </h6>
+                                    <h6>
+                                        <small><?php echo date('F Y', strtotime($row['secondary_start'])); ?> - <?php echo date('F Y', strtotime($row['secondary_finish'])); ?></small>
+                                    </h6>
+                                </div>
+                                <!-- TIMELINE PARAGRAPH -->
+                                <p>
+                                    <?php 
+                                        if (empty($row['secondary_info'])) {
+                                            'No Description';
+                                        } else {
+                                            echo $row['secondary_info'];
+                                        } 
+                                    ?>
+                                </p>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -448,111 +465,43 @@
                 <!-- TIMELINE CONTENT -->
                 <div class="card timeline-content">
                     <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Computer Science</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Down Street College</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2006 - Mar 2008</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed my computer science degree from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
+                        <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
 
-                    </div>
-                </div>
-            </div>
-
-            <!-- FOURTH TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><i class="fa fa-graduation-cap"></i></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Software Engineering</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Oxford University</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2009 - Mar 2010</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed this degree from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-            <!-- FIFTH TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><h6>U</h6></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">UI/UX Workshop</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>IT Next Academy</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2010 - Mar 2011</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed this course from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        <a href="#" class="modal-dot" data-toggle="modal" data-target="#myModal-2">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- SIXTH TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><i class="fa fa-globe"></i></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Web Development</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Lipro University</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2011 - Mar 2012</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I completed this course from this prestigious institution.
-                            I successful completed all the credits without any fallout and got A grade overall.
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        <a href="#" class="modal-dot" data-toggle="modal" data-target="#myModal-3">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- TIMELINE TITLE -->
+                                <h6 class="timeline-title">College</h6>
+                                <!-- TIMELINE TITLE INFO -->
+                                <div class="timeline-info">
+                                    <h6>
+                                        <small><?php echo $row['higher_name']; ?></small>
+                                    </h6>
+                                    <h6>
+                                        <small><?php echo date('F Y', strtotime($row['higher_start'])); ?> - <?php echo date('F Y', strtotime($row['higher_finish'])); ?></small>
+                                    </h6>
+                                </div>
+                                <!-- TIMELINE PARAGRAPH -->
+                                <p>
+                                    <?php 
+                                        if (empty($row['higher_info'])) {
+                                            'No Description';
+                                        } else {
+                                            echo $row['higher_info'];
+                                        } 
+                                    ?>
+                                </p>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -565,118 +514,7 @@
 <!--==========================================
                    SKILLS
 ===========================================-->
-<section id="skills" class="section">
-    <div class="container">
-        <!-- SECTION TITLE -->
-        <div class="section-title">
-            <h4 class="text-uppercase text-center"><img src="images/icons/mixer.png" alt="demo">Skills</h4>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div id="skills-card" class="card">
-                    <div class="card-content">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <!-- FIRST SKILL SECTION -->
-                                <div class="skills-title">
-                                    <h6 class="text-center">Professional</h6>
-                                </div>
-                                <!-- FIRST SKILL BAR -->
-                                <div class="skillbar" data-percent="90%">
-                                    <div class="skillbar-title"><span>HTML5</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">90%</div>
-                                </div>
-                                <!-- SECOND SKILL BAR  -->
-                                <div class="skillbar" data-percent="90%">
-                                    <div class="skillbar-title"><span>CSS3</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">90%</div>
-                                </div>
-                                <!-- THIRD SKILL BAR  -->
-                                <div class="skillbar" data-percent="70%">
-                                    <div class="skillbar-title"><span>jQuery</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">70%</div>
-                                </div>
-                                <!-- FOURTH SKILL BAR  -->
-                                <div class="skillbar" data-percent="68%">
-                                    <div class="skillbar-title"><span>PHP</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">68%</div>
-                                </div>
-                            </div>
 
-
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <!-- SECOND SKILL SECTION -->
-                                <div class="skills-title">
-                                    <h6 class="text-center">Personal</h6>
-                                </div>
-                                <!-- FIRST SKILL BAR -->
-                                <div class="skillbar" data-percent="80%">
-                                    <div class="skillbar-title"><span>Communication</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">80%</div>
-                                </div>
-                                <!-- SECOND SKILL BAR  -->
-                                <div class="skillbar" data-percent="60%">
-                                    <div class="skillbar-title"><span>Teamwork</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">60%</div>
-                                </div>
-                                <!-- THIRD SKILL BAR  -->
-                                <div class="skillbar" data-percent="70%">
-                                    <div class="skillbar-title"><span>Creativity</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">70%</div>
-                                </div>
-                                <!-- FOURTH SKILL BAR  -->
-                                <div class="skillbar" data-percent="70%">
-                                    <div class="skillbar-title"><span>Dedication</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">70%</div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <!-- THIRD SKILL SECTION -->
-                                <div class="skills-title">
-                                    <h6 class="text-center">Software</h6>
-                                </div>
-                                <!-- FIRST SKILL BAR -->
-                                <div class="skillbar" data-percent="80%">
-                                    <div class="skillbar-title"><span>Adobe Illustrator</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">80%</div>
-                                </div>
-                                <!-- SECOND SKILL BAR  -->
-                                <div class="skillbar" data-percent="70%">
-                                    <div class="skillbar-title"><span>Adobe InDesign</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">70%</div>
-                                </div>
-                                <!-- THIRD SKILL BAR  -->
-                                <div class="skillbar" data-percent="60%">
-                                    <div class="skillbar-title"><span>PHP Storm</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">60%</div>
-                                </div>
-                                <!-- FOURTH SKILL BAR  -->
-                                <div class="skillbar" data-percent="80%">
-                                    <div class="skillbar-title"><span>Dev Console</span></div>
-                                    <div class="skillbar-bar"></div>
-                                    <div class="skill-bar-percent">80%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <!--==========================================
@@ -694,30 +532,47 @@
             <!-- FIRST TIMELINE -->
             <div class="timeline-block">
                 <!-- DOT -->
-                <div class="timeline-dot"><h6>D</h6></div>
+                <div class="timeline-dot"><h6>1</h6></div>
                 <!-- TIMELINE CONTENT -->
                 <div class="card timeline-content">
                     <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Designer</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>RulerSoft</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2010 - Mar 2012</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I started my designing carrier here, spent tow years learning and working
-                            in various designing aspects..
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        <a href="#" class="modal-dot" data-toggle="modal" data-target="#myModal-4">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
+                        <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
+
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- TIMELINE TITLE -->
+                                <h6 class="timeline-title"><?php echo $row['first_exp_title']; ?></h6>
+                                <!-- TIMELINE TITLE INFO -->
+                                <div class="timeline-info">
+                                    <h6>
+                                        <small><?php echo $row['first_exp_company']; ?></small>
+                                    </h6>
+                                    <h6>
+                                        <small><?php echo date('F Y', strtotime($row['first_exp_start'])); ?> - <?php echo date('F Y', strtotime($row['first_exp_finish'])); ?></small>
+                                    </h6>
+                                </div>
+                                <!-- TIMELINE PARAGRAPH -->
+                                <p>
+                                    <?php 
+                                        if (empty($row['first_exp_info'])) {
+                                            'No Description';
+                                        } else {
+                                            echo $row['first_exp_info'];
+                                        } 
+                                    ?>
+                                </p>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -725,27 +580,47 @@
             <!-- SECOND TIMELINE -->
             <div class="timeline-block">
                 <!-- DOT -->
-                <div class="timeline-dot"><h6>F</h6></div>
+                <div class="timeline-dot"><h6>2</h6></div>
                 <!-- TIMELINE CONTENT -->
                 <div class="card timeline-content">
                     <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Frontend Developer</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Micro IT</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2012 - Mar 2014</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I started my frontend carrier here, spent tow years learning and working
-                            in various frontend aspects. I worked on about 40+ projects local and online.
-                        </p>
+                       <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
 
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- TIMELINE TITLE -->
+                                <h6 class="timeline-title"><?php echo $row['second_exp_title']; ?></h6>
+                                <!-- TIMELINE TITLE INFO -->
+                                <div class="timeline-info">
+                                    <h6>
+                                        <small><?php echo $row['second_exp_company']; ?></small>
+                                    </h6>
+                                    <h6>
+                                        <small><?php echo date('F Y', strtotime($row['second_exp_start'])); ?> - <?php echo date('F Y', strtotime($row['second_exp_finish'])); ?></small>
+                                    </h6>
+                                </div>
+                                <!-- TIMELINE PARAGRAPH -->
+                                <p>
+                                    <?php 
+                                        if (empty($row['second_exp_info'])) {
+                                            'No Description';
+                                        } else {
+                                            echo $row['second_exp_info'];
+                                        } 
+                                    ?>
+                                </p>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -753,58 +628,47 @@
             <!-- THIRD TIMELINE -->
             <div class="timeline-block">
                 <!-- DOT -->
-                <div class="timeline-dot"><h6>U</h6></div>
+                <div class="timeline-dot"><h6>3</h6></div>
                 <!-- TIMELINE CONTENT -->
                 <div class="card timeline-content">
                     <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">UI/UX Expert</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>Libra IT Solutions</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2014 - Mar 2015</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I started my expertise carrier here, spent tow years learning and working
-                            in various UX/UI aspects. I worked on about 70+ projects local and online.
-                        </p>
+                    <?php
+                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $stmt = mysqli_stmt_init($conn);
+                            
+                            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                              die('SQL Failed: ' . mysqli_error($conn));
+                            } else {
+                              mysqli_stmt_execute($stmt);
+                              $result = mysqli_stmt_get_result($stmt);
 
-                    </div>
-                </div>
-            </div>
-
-            <!-- FOURTH TIMELINE -->
-            <div class="timeline-block">
-                <!-- DOT -->
-                <div class="timeline-dot"><h6>S</h6></div>
-                <!-- TIMELINE CONTENT -->
-                <div class="card timeline-content">
-                    <div class="card-content">
-                        <!-- TIMELINE TITLE -->
-                        <h6 class="timeline-title">Senior Developer</h6>
-                        <!-- TIMELINE TITLE INFO -->
-                        <div class="timeline-info">
-                            <h6>
-                                <small>WebStyle Technologies</small>
-                            </h6>
-                            <h6>
-                                <small>Jan 2016 - Continue..</small>
-                            </h6>
-                        </div>
-                        <!-- TIMELINE PARAGRAPH -->
-                        <p>
-                            I recently joined here, currently working on various development
-                            aspects. I already worked on about..
-                        </p>
-                        <!-- BUTTON TRIGGER MODAL -->
-                        <a href="#" class="modal-dot" data-toggle="modal" data-target="#myModal-5">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
+                              while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                                <!-- TIMELINE TITLE -->
+                                <h6 class="timeline-title"><?php echo $row['second_exp_title']; ?></h6>
+                                <!-- TIMELINE TITLE INFO -->
+                                <div class="timeline-info">
+                                    <h6>
+                                        <small><?php echo $row['third_exp_company']; ?></small>
+                                    </h6>
+                                    <h6>
+                                        <small><?php echo date('F Y', strtotime($row['third_exp_start'])); ?> - <?php echo date('F Y', strtotime($row['third_exp_finish'])); ?></small>
+                                    </h6>
+                                </div>
+                                <!-- TIMELINE PARAGRAPH -->
+                                <p>
+                                    <?php 
+                                        if (empty($row['third_exp_info'])) {
+                                            'No Description';
+                                        } else {
+                                            echo $row['third_exp_info'];
+                                        } 
+                                    ?>
+                                </p>
+                        <?php
+                              }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -1188,379 +1052,23 @@
 <!--==========================================
                    INTEREST
 ===========================================-->
-<section id="interest" class="section">
-    <div class="container">
-        <!-- SECTION TITLE -->
-        <div class="section-title">
-            <h4 class="text-uppercase text-center"><img src="images/icons/heart.png" alt="demo">Interest</h4>
-        </div>
 
-        <div id="interest-card" class="card">
-            <!--INTEREST TEXT-->
-            <div class="card-content">
-                <p>
-                    First of all I love music, country music is my favorite. Love watching
-                    football, movies and playing games with my buddies. I spend quite a lot of time
-                    in traveling and photography, these keeps me fresh for working environment.
-                    I also spend time volunteering at the Red Cross in London, UK each month.
-                </p>
-            </div>
-
-            <!--INTEREST ICONS-->
-            <div class="row no-gutters">
-
-                <!--INTEREST ICON ONE-->
-                <div class="col-md-2 col-sm-4 col-xs-6  box text-center">
-                    <div class="interest-icon">
-                        <i class="fa fa-music"></i>
-                        <span>Music</span>
-                    </div>
-                </div>
-                <!--INTEREST ICON TWO-->
-                <div class="col-md-2 col-sm-4 col-xs-6 box text-center">
-                    <div class="interest-icon-even">
-                        <i class="fa fa-gamepad"></i>
-                        <span>Gaming</span>
-                    </div>
-                </div>
-                <!--INTEREST ICON THREE-->
-                <div class="col-md-2 col-sm-4 col-xs-6 box text-center">
-                    <div class="interest-icon">
-                        <i class="fa fa-camera"></i>
-                        <span>Photography</span>
-                    </div>
-                </div>
-                <!--INTEREST ICON FOUR-->
-                <div class="col-md-2 col-sm-4 col-xs-6 box text-center">
-                    <div class="interest-icon-even">
-                        <i class="fa fa-futbol-o"></i>
-                        <span>Football</span>
-                    </div>
-                </div>
-                <!--INTEREST ICON FIVE-->
-                <div class="col-md-2 col-sm-4 col-xs-6 box text-center">
-                    <div class="interest-icon">
-                        <i class="fa fa-plane"></i>
-                        <span>Traveling</span>
-                    </div>
-                </div>
-                <!--INTEREST ICON SIX-->
-                <div class="col-md-2 col-sm-4 col-xs-6 box text-center">
-                    <div class="interest-icon-even">
-                        <i class="fa fa-film"></i>
-                        <span>Movies</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <!--==========================================
              TESTIMONIALS AND CLIENTS
 ===========================================-->
-<section id="testimonials" class="section">
-    <div class="container">
-        <!-- SECTION TITLE -->
-        <div class="section-title">
-            <h4 class="text-uppercase text-center"><img src="images/icons/handshake.png" alt="demo">Testimonials</h4>
-        </div>
-        <div id="testimonials-card" class="row card">
-            <div class="col-md-12 col-xs-12">
 
-                <!-- SLIDER STRUCTURE -->
-                <div id="clients-slider"
-                     class="swiper-container swiper-container-clients">
-                    <div class="swiper-wrapper">
-                        <!-- SLIDE ONE -->
-                        <div class="swiper-slide">
-                            <div class="col-md-12">
-                                <!--CLIENT IMAGE-->
-                                <div class="client-img center-block">
-                                    <img alt="client-image" class="center-block" src="images/clients/client-1.png">
-                                </div>
-                                <!--CLIENT QUOTE-->
-                                <blockquote>
-                                    I work with John on several web development projects and I find him to be extremely
-                                    creative and a technical Front End Developer. Jone expertise involves building
-                                    complex
-                                    Responsive Design layouts using HTML 5, CSS3, and JavaScript.
-                                    I work with John on several web development projects and I find him to be extremely
-                                    creative and a technical Front End Developer. Jone expertise involves building
-                                    complex
-                                    Responsive Design layouts using HTML 5, CSS3, and JavaScript.
-                                    <cite>Mike, CEO, IT World.</cite>
-                                </blockquote>
-                            </div>
-                        </div>
-
-                        <!-- SLIDE TWO -->
-                        <div class="swiper-slide">
-                            <div class="col-md-12">
-                                <!--CLIENT IMAGE-->
-                                <div class="client-img center-block">
-                                    <img alt="client-image" class="center-block" src="images/clients/client-2.png">
-                                </div>
-                                <!--CLIENT QUOTE-->
-                                <blockquote>
-                                    I work with John on several web development projects and I find him to be extremely
-                                    creative and a technical Front End Developer.
-                                    <cite>Mike, CEO, IT World.</cite>
-                                </blockquote>
-                            </div>
-                        </div>
-
-                        <!-- SLIDE THREE -->
-                        <div class="swiper-slide">
-                            <div class="col-md-12">
-                                <!--CLIENT IMAGE-->
-                                <div class="client-img center-block">
-                                    <img alt="client-image" class="center-block" src="images/clients/client-3.png">
-                                </div>
-                                <!--CLIENT QUOTE-->
-                                <blockquote>
-                                    I work with John on several web development projects and I find him to be extremely
-                                    creative and a technical Front End Developer. Jone expertise involves building
-                                    complex
-                                    Responsive Design layouts using HTML 5, CSS3, and JavaScript.
-                                    <cite>Mike, CEO, IT World.</cite>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination swiper-pagination-clients"></div>
-                </div>
-            </div>
-        </div>
-        <div id="clients">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="clients-wrap">
-                            <!--CLIENT LOGO'S-->
-                            <ul id="clients-list" class="clearfix">
-                                <li><img src="images/logos/logo1.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo2.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo3.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo4.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo5.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo6.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo7.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo8.png" alt="client-logo"></li>
-                                <li><img src="images/logos/logo9.png" alt="client-logo"></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!--==========================================
              PRICING TABLE
 ===========================================-->
-<section id="pricing-table" class="section">
-    <div class="container">
-        <!--SECTION TITLE-->
-        <div class="section-title">
-            <h4 class="text-uppercase text-center"><img src="images/icons/lightning.png" alt="demo">Pricing</h4>
-        </div>
-        <!--PRICING TABLES-->
-        <div id="pricing-card" class="row">
-            <!--PRICING ONE-->
-            <div id="p-one" class="col-md-4 col-sm-4 col-xs-12">
-                <div class="pricing">
-                    <div class="card">
-                        <!--PRICING TOP-->
-                        <div class="pricing-top">
-                            <p><sup>$</sup><em>50</em>/mo</p>
-                            <span>Starter</span>
-                        </div>
-                        <!--PRICING DETAILS-->
-                        <div class="pricing-bottom text-center text-capitalize">
-                            <ul>
-                                <li>2 GB Bandwidth</li>
-                                <li>5 GB Disk Space</li>
-                                <li>5 Databases</li>
-                                <li>Free Domain</li>
-                                <li>5 Subdomain</li>
-                            </ul>
-                        </div>
-                        <!--BUTTON-->
-                        <div class="card-action text-center">
-                            <a class="waves-effect btn">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!--PRICING TWO-->
-            <div id="p-three" class="col-md-4 col-sm-4 col-xs-12">
-                <div class="pricing">
-                    <div class="card">
-                        <!--PRICING TOP-->
-                        <div class="pricing-top">
-                            <p><sup>$</sup><em>200</em>/mo</p>
-                            <span>Ultimate</span>
-                        </div>
-                        <!--PRICING DETAILS-->
-                        <div class="pricing-bottom text-center text-capitalize">
-                            <ul>
-                                <li>∞ Bandwidth</li>
-                                <li>∞ Disk Space</li>
-                                <li>∞ Databases</li>
-                                <li>Free Domain</li>
-                                <li>∞ Subdomain</li>
-                            </ul>
-                        </div>
-                        <!--BUTTON-->
-                        <div class="card-action text-center">
-                            <a class="waves-effect btn">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--PRICING THREE-->
-            <div id="p-two" class="col-md-4 col-sm-4 col-xs-12">
-                <div class="pricing">
-                    <div class="card">
-                        <!--PRICING TOP-->
-                        <div class="pricing-top">
-                            <p><sup>$</sup><em>100</em>/mo</p>
-                            <span>Business</span>
-                        </div>
-                        <!--PRICING DETAILS-->
-                        <div class="pricing-bottom text-center text-capitalize">
-                            <ul>
-                                <li>5 GB Bandwidth</li>
-                                <li>25 GB Disk Space</li>
-                                <li>10 Databases</li>
-                                <li>Free Domain</li>
-                                <li>15 Subdomain</li>
-                            </ul>
-                        </div>
-                        <!--BUTTON-->
-                        <div class="card-action text-center">
-                            <a class="waves-effect btn">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 
 <!--==========================================
              BLOG
 ===========================================-->
-<section id="blog" class="section">
-    <div class="container">
-        <!-- SECTION TITLE -->
-        <div class="section-title">
-            <h4 class="text-uppercase text-center"><img src="images/icons/post-it.png" alt="demo">Blog</h4>
-        </div>
-        <div id="blog-card" class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="card">
-                    <!--BLOG ODD-->
-                    <div class="blog odd">
-                        <!--IMAGE-->
-                        <div class="image">
-                            <img alt="blog-image" src="images/blog/blog-2.png"/>
-                            <div class="image-overlay">
-                                <div class="comments">
-                                    <i class="fa fa-user"></i> John Doe
-                                    <i class="fa fa-clock-o"></i>
-                                    <time datetime="2045-08-16">August 7, 2020</time>
-                                    <i class="fa fa-comments"></i> 168
-                                </div>
-                            </div>
-                        </div>
-                        <!--DETAILS-->
-                        <div class="content">
-                            <ol class="breadcrumb">
-                                <li><a href="#">Frontend</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li class="active">Material</li>
-                            </ol>
-                            <h6>Material Design</h6>
-                            <p>
-                                Web design encompasses many different skills and disciplines in the production
-                                of websites.Web design include web graphic design, interface design etc.
-                            </p>
-                            <a class="forward" href="single-blog.html">Read More</a>
-                        </div>
-                    </div>
-                    <!--BLOG EVEN-->
-                    <div class="blog even">
-                        <!--IMAGE-->
-                        <div class="image">
-                            <img alt="blog-image" src="images/blog/blog-1.png"/>
-                            <div class="image-overlay">
-                                <div class="comments">
-                                    <i class="fa fa-user"></i> John Doe
-                                    <i class="fa fa-clock-o"></i>
-                                    <time datetime="2045-08-16">August 7, 2020</time>
-                                    <i class="fa fa-comments"></i> 168
-                                </div>
-                            </div>
-                        </div>
-                        <!--DETAILS-->
-                        <div class="content">
-                            <ol class="breadcrumb">
-                                <li><a href="#">Backend</a></li>
-                                <li><a href="#">Dev</a></li>
-                                <li class="active">Shortcuts</li>
-                            </ol>
-                            <h6>Development Shortcut</h6>
-                            <p>
-                                Web development is a broad term for the work involved in developing a web site
-                                for the Internet or an intranet. Now lets get a bit deeper in this topic
-                            </p>
-                            <a class="forward" href="single-blog.html">Read More</a>
-                        </div>
-                    </div>
-                    <!--BLOG ODD-->
-                    <div class="blog odd">
-                        <!--IMAGE-->
-                        <div class="image">
-                            <img alt="blog-image" src="images/blog/blog-3.png"/>
-                            <div class="image-overlay">
-                                <div class="comments">
-                                    <i class="fa fa-user"></i> John Doe
-                                    <i class="fa fa-clock-o"></i>
-                                    <time datetime="2045-08-16">August 7, 2020</time>
-                                    <i class="fa fa-comments"></i> 168
-                                </div>
-                            </div>
-                        </div>
-                        <!--DETAILS-->
-                        <div class="content">
-                            <ol class="breadcrumb">
-                                <li><a href="#">Frontend</a></li>
-                                <li><a href="#">Specs</a></li>
-                                <li class="active">UI</li>
-                            </ol>
-                            <h6>A Good UI</h6>
-                            <p>
-                                The user interface (UI), in the industrial design field of human–machine
-                                interaction, is the space where interactions between humans and machines occur.
-                            </p>
-                            <a class="forward" href="single-blog.html">Read More</a>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!--==========================================
                   CONTACT

@@ -271,8 +271,8 @@
                     </div>-->
 
                     <div class="card-content">
-                    <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                        <?php
+                            $sql = "SELECT * FROM user, student WHERE user.user_ID = $studentID AND student.student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -283,70 +283,59 @@
 
                               while ($row = mysqli_fetch_assoc($result)) {
                         ?>
-                        <!-- NAME & STATUS -->
-                        <div class="info-headings">
-                            <h4 class="text-uppercase left"><?php echo $fullName; ?></h4>
-                            <h6 class="text-capitalize left"><?php echo $row['student_tagline']; ?></h6>
-                        </div>
+                                <!-- NAME & STATUS -->
+                                <div class="info-headings">
+                                    <h4 class="text-uppercase left"><?php echo $fullName; ?></h4>
+                                    <h6 class="text-capitalize left"><?php echo $row['student_tagline']; ?></h6>
+                                </div>
 
-                        <!-- CONTACT INFO -->
-                        <div class="infos">
-                            <ul class="profile-list">
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">email</i></span>
-                                    <span class="content"><?php /* echo $row['student_email']; */ ?></span>
-                                </li>
-                               <br>
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">phone</i></span>
-                                    <span class="content"><?php /** echo $row['student_contact_no']; */ ?></span>
-                                </li>
-                                <br>
-                                <li class="clearfix">
-                                    <span class="title"><i class="material-icons">place</i></span>
-                                    <span class="content"><?php /** echo $row['student_address']; */ ?></span>
-                                </li>
+                                <!-- CONTACT INFO -->
+                                <div class="infos">
+                                    <ul class="profile-list">
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">email</i></span>
+                                            <span class="content"><?php echo $row['user_email']; ?></span>
+                                        </li>
+                                        <!-- <li class="clearfix">
+                                            <span class="title"><i class="material-icons">language</i></span>
+                                            <span class="content">yourpersonalwebsite.com</span>
+                                        </li> -->
+                                        <!-- <li class="clearfix">
+                                            <span class="title"><i class="fa fa-skype" aria-hidden="true"></i></span>
+                                            <span class="content">yourusername@skype.com</span>
+                                        </li> -->
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">phone</i></span>
+                                            <span class="content"><?php echo $row['student_contact_no']; ?></span>
+                                        </li>
+                                        <li class="clearfix">
+                                            <span class="title"><i class="material-icons">place</i></span>
+                                            <span class="content"><?php echo $row['student_address']; ?></span>
+                                        </li>
 
-                            </ul>
-                        </div>
-                        <br>
+                                    </ul>
+                                </div>
+
+                                <!--LINKS-->
+                                <div class="links">
+                                    <!-- FACEBOOK-->
+                                    <a href="https://www.facebook.com/<?php echo $row['student_facebook']; ?>" target = "_blank" id="first_one"
+                                    class="social btn-floating indigo"><i
+                                            class="fa fa-facebook"></i></a>
+                                    <!-- TWITTER-->
+                                    <a href="https://twitter.com/<?php echo $row['student_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
+                                            class="fa fa-twitter"></i></a>
+                                    <!-- GOOGLE+-->
+                                    <a href="https://www.instagram.com/<?php echo $row['student_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
+                                            class="fa fa-instagram"></i></a>
+                                    <!-- LINKEDIN-->
+                                    <a href="https://www.linkedin.com/in/<?php echo $row['student_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
+                                            class="fa fa-linkedin"></i></a>
+                                </div>
                         <?php
                               }
                             }
                         ?>
-                        <!--LINKS-->
-                        <div class="links">
-                        <?php
-                                $sql = "SELECT * FROM `student` WHERE student_id = $studentID";
-                                $stmt = mysqli_stmt_init($conn);
-
-                                if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                    die('SQL Failed: ' . mysqli_error($conn));
-                                } else {
-                                    mysqli_stmt_execute($stmt);
-                                    $result = mysqli_stmt_get_result($stmt);
-
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                            <!-- FACEBOOK-->
-                            <a href="https://www.facebook.com/<?php echo $row['student_facebook']; ?>" target = "_blank" id="first_one"
-                               class="social btn-floating indigo"><i
-                                    class="fa fa-facebook"></i></a>
-                            <!-- TWITTER-->
-                            <a href="https://twitter.com/<?php echo $row['student_twitter']; ?>" target = "_blank" class="social  btn-floating blue"><i
-                                    class="fa fa-twitter"></i></a>
-                            <!-- GOOGLE+-->
-                            <a href="https://www.instagram.com/<?php echo $row['student_instagram']; ?>" target = "_blank" class="social  btn-floating red"><i
-                                    class="fa fa-instagram"></i></a>
-                            <!-- LINKEDIN-->
-                            <a href="https://www.linkedin.com/in/<?php echo $row['student_linkedin']; ?>" target="_blank" class="social  btn-floating blue darken-3"><i
-                                    class="fa fa-linkedin"></i></a>
-                                    <?php
-                                    }
-                                }
-                            ?>
-                         
-                        </div>
                     </div>
                     <!--HTML 5 VIDEO-->
                     <!-- <video id="html-video" class="video" poster="images/poster/poster.jpg" controls>

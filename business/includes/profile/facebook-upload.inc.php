@@ -13,16 +13,14 @@ if (!empty($_POST['facebook-link'])) {
   // FACEBOOK PROFILE URL
   // preg_match("/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\.-]*)?/", $link, $matches);
 
-  // preg_match("/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?([\w\-]*)?/", $link, $matches);
-
-  preg_match("/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/", $link, $matches);
-
+  preg_match("/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?([\w\-]*)?/", $link, $matches);
+  
   // FACEBOOK PAGE / USERNAME / USERID
   // preg_match('#https?\://(?:www\.)?facebook\.com/(\d+|[A-Za-z0-9\.]+)/?#', $link, $matches);
 
   $id = $matches[1];
 
-  $sql = "UPDATE `student` SET `student_facebook` = ? WHERE student_id = $companyID;";
+  $sql = "UPDATE `company_social_media` SET `media_facebook` = ? WHERE `company_social_media`.`company_ID` = $companyID;";
   $stmt = mysqli_stmt_init($conn);
 
   if (!mysqli_stmt_prepare($stmt, $sql)) {

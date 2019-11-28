@@ -14,7 +14,7 @@ if (!empty($_POST['linkedin-link'])) {
 
   $id = $matches[1];
 
-  $sql = "UPDATE `student` SET `student_linkedin` = ? WHERE student_id = $companyID;";
+  $sql = "UPDATE `company_social_media` SET `media_linkedin` = ? WHERE `company_social_media`.`company_ID` = $companyID;";
   $stmt = mysqli_stmt_init($conn);
 
   if (!mysqli_stmt_prepare($stmt, $sql)) {

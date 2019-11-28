@@ -1160,15 +1160,14 @@
                     url: 'includes/profile/mentor-info-update.inc.php',
                     data: formData,
                     success: function (data) {
-                        alert(data);
                         swalWithBootstrapButtons.fire(
                             'Changes Saved!',
                             'Your changes has been saved.',
                             'success'
                         )
-                        // window.setTimeout(function(){ 
-                        //     location.reload();
-                        // }, 750);
+                        window.setTimeout(function(){ 
+                            location.reload();
+                        }, 750);
                     },
                     error: function() {
                         swalWithBootstrapButtons.fire(
@@ -1262,7 +1261,7 @@
                 formData.append("facebook-link", url.value);
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/facebook-upload.inc.php',
+                    url: 'includes/profile/mentor_facebook-upload.inc.php',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1298,7 +1297,7 @@
                 formData.append("twitter-link", url.value);
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/twitter-upload.inc.php',
+                    url: 'includes/profile/mentor_twitter-upload.inc.php',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1334,7 +1333,7 @@
                 formData.append("instagram-link", url.value);
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/instagram-upload.inc.php',
+                    url: 'includes/profile/mentor_instagram-upload.inc.php',
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1370,7 +1369,7 @@
                 formData.append("linkedin-link", url.value);
                 $.ajax({
                     method: 'POST',
-                    url: 'includes/profile/linkedin-upload.inc.php',
+                    url: 'includes/profile/mentor_linkedin-upload.inc.php',
                     data: formData,
                     processData: false,
                     contentType: false,
