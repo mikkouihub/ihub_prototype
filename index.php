@@ -87,13 +87,13 @@
 						
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0px;margin-right:0px;text-align:center">
-<a href='filceb-members.php'>
+<a href='members.php'>
 <img src="uploads/1/1/3/2/113269475/editor/ourmembers_1.png?1510550549" alt="Picture" style="width:115;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
 
-<h2 class="wsite-content-title" style="text-align:center;"><font color="#2a2a2a" size="5"><a href="filceb-members.php">OUR MEMBERS</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font color="#2a2a2a" size="5"><a href="members.php">OUR MEMBERS</a></font></h2>
 
 <div class="paragraph" style="text-align:center;"><span style="color:rgb(30, 30, 30)">Meet our leadership and members</span></div>
 

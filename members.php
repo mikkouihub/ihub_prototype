@@ -331,29 +331,45 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
 	</style>
 
           <div class="nav membership-cart">
-          	<?php 
-          		if (isset($_SESSION['userEmail'])) {
-          			echo '
-          			<span id="member-login" class="wsite-custom-membership-wrapper">
+					<?php 
+          		if (isset($_SESSION['loggedIn'])) {
+          	?>
+								<span id="member-login" class="wsite-custom-membership-wrapper">
           			<a id="wsite-nav-signup-a">
           				<div class="dropdown">
-          					<button class="dropbtn">', 
-          						$_SESSION['userName'],
-          					'</button>
+          					<button class="dropbtn">
+          						<?php echo $_SESSION['userName']; ?>
+          					</button>
           				<div class="dropdown-content">
-          					<a href="user/profile.php">My Profile</a>
-          					<form action="includes/user-management/logout.inc.php" method="POST">
-						    <a ><button id="btn" type="submit" name="submit">Logout</button></a>
+						<?php
+          			if ($_SESSION['userType'] == "Student") {
+          	?>
+									<a href="business/student.php" target="_blank">My Profile</a>
+						<?php
+          			} elseif ($_SESSION['userType'] == "Mentor") {
+						?>
+									<a href="business/mentor.php" target="_blank">My Profile</a>
+						<?php
+								} elseif ($_SESSION['userType'] == "Company") {
+						?>
+									<a href="business/company.php" target="_blank">My Profile</a>
+						<?php
+								}
+						?>
+									<form action="includes/user-management/logout.inc.php" method="POST">
+						    <a ><button id="btn" type="submit" name="logout">Logout</button></a>
 						    </form>
           					</div>
           				</div>
           			</a></span>
-          	';
-          		} else {
-          			echo '<span id="member-signup" class="wsite-custom-membership-wrapper">
-          		<a href="user/sign-up.php" id="wsite-nav-signup-a"><button class="button">Sign Up</button></a></span>
+						<?php
+          	} else {
+						?>
+								<span id="member-signup" class="wsite-custom-membership-wrapper">
+          		<a href="business/sign-up.php" id="wsite-nav-signup-a"><button class="button">Sign Up</button></a></span>
           		<span id="member-signin" class="wsite-custom-membership-wrapper">
-          		<a href="user/login.php" id="wsite-nav-signin-a"><button class="button">Login</button></a></span>';
+          		<a href="business/login.php" id="wsite-nav-signin-a"><button class="button">Login</button></a></span>
+          	<?php
           		}
           	?>
           </div>
@@ -391,125 +407,111 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
             	<table class="cg-nav-wrapper cg-nav-wrapper-row-2" data-role="cg-nav-wrapper">
                                                         
                     <tr>
-
-                    	<?php
-	            			include 'includes/connection/dbh.inc.php';
-
-	            			$categories =array("Student", "Mentor", "Company");
-
-	            			$len = count($categories);
-
-
-							for($x = 0; $x < $len; $x++) {
-
-								$current = $categories[$x];
-							    
-							    $sql = "SELECT count(job_category) AS total FROM jobs WHERE job_category ='$current' ";
-
-								$result = mysqli_query($conn, $sql);
-
-							    $count=mysqli_fetch_assoc($result);
-
-							    $num = $count['total'];
-								
-								if($current=='Student'){
-									if($num>0){
-										?>
-											<td class="anchor-wrap anchor1-wrap"  data-role="anchor1">
-						                        <a class=" showSingle click-here" target="1" data-role="cont" >
-						                            <!-- <i class="cg-icon"></i> -->
-						                            <center>
-						                            <span class="desc">
-						                                Student
-						                            </span>
-						                            </center>
-						                        </a>
-						                    </td>
 										<?php
-									}else{
+											include 'includes/connection/dbh.inc.php';
 										?>
-											<td class="anchor-wrap anchor1-wrap"  data-role="anchor1">
-						                        <a class=" click-here" target="1" data-role="cont" >
-						                            <!-- <i class="cg-icon"></i> -->
-						                            <center>
-						                            <span class="desc">
-						                                Student
-						                            </span>
-						                            </center>
-						                        </a>
-						                    </td>
-										<?php
-									}
-								}
 
-								else if($current=='Mentor'){
-									if($num>0){
-										?>
-											<td class="anchor-wrap anchor2-wrap showSingle click-here" target="2" data-role="anchor2">
-						                        <a class=""  data-role="cont" >
-						                            <!-- <i class="cg-icon"></i> -->
-						                            <span class="desc">
-						                            	<center>
-						                                Mentor
-						                            </center>
-						                            </span>
-						                        </a>
-						                    </td>
-										<?php
-									}else{
-										?>
-											<td class="anchor-wrap anchor2-wrap" target="2" data-role="anchor2">
-						                        <a class="click-here"  data-role="cont" >
-						                           <!--  <i class="cg-icon"></i> -->
-						                            <span class="desc">
-						                            	<center>
-						                               Mentor
-						                               </center>
-						                            </span>
-						                        </a>
-						                    </td>
-										<?php
-									}
-								}
+                    <?php
+											$categories = array("Student", "Mentor", "Company");
+											$len = count($categories);
 
-								else if($current=='Company'){
-									if($num>0){
-										?>
-											<td class="anchor-wrap anchor1-wrap" data-role="anchor1">
-									            <a class="showSingle click-here" target="3" data-role="cont" >
-									                <!--<i class="cg-icon"></i>-->
+											for ($x = 0; $x < $len; $x++) { 
+												$current = $categories[$x];
 
-									                	<!-- <img src="uploads/m-rpr.png"> -->
-									                	<span class="desc" >
-									                	<center>
-									                		Company
-									                	</center>
-														</span>
-													
-									            </a>
-							            	</td>
-										<?php
-									}else{
-										?>
-											<td class="anchor-wrap anchor1-wrap" data-role="anchor1">
-									            <a class="click-here" target="3" data-role="cont" >
-									                <!--<i class="cg-icon"></i>-->
-									                	<span class="desc">
-									                	<center>
-									                		Company
-														</center>
-														</span>
-													
-									            </a>
-							            	</td>
-										<?php
-									}
-								}
+							    			$sql = "SELECT count(user_type) AS total FROM user WHERE user_type ='$current' ";
+												$result = mysqli_query($conn, $sql);
+							    			$count = mysqli_fetch_assoc($result);
 
-								
-								
-							}
-						?>
+												$num = $count['total'];
+												
+												if($current=='Student'){
+													if($num>0){
+										?>
+															<td class="anchor-wrap anchor1-wrap"  data-role="anchor1">
+																<a class=" showSingle click-here" target="1" data-role="cont" >
+																	<!-- <i class="cg-icon"></i> -->
+																	<center>
+																		<span class="desc">
+																				Student
+																		</span>
+																	</center>
+																</a>
+															</td>
+										<?php
+													} else {
+										?>
+														<td class="anchor-wrap anchor1-wrap"  data-role="anchor1">
+															<a class=" click-here" target="1" data-role="cont" >
+																<!-- <i class="cg-icon"></i> -->
+																<center>
+																	<span class="desc">
+																			Student
+																	</span>
+																</center>
+															</a>
+														</td>
+										<?php
+													}
+												} else if($current=='Mentor'){
+													if($num>0){
+										?>
+														<td class="anchor-wrap anchor2-wrap showSingle click-here" target="2" data-role="anchor2">
+															<a class=""  data-role="cont" >
+																	<!-- <i class="cg-icon"></i> -->
+																	<span class="desc">
+																		<center>
+																			Mentor
+																		</center>
+																	</span>
+															</a>
+														</td>
+										<?php
+													}else{
+										?>
+														<td class="anchor-wrap anchor2-wrap" target="2" data-role="anchor2">
+															<a class="click-here"  data-role="cont" >
+																<!--  <i class="cg-icon"></i> -->
+																<span class="desc">
+																	<center>
+																		Mentor
+																	</center>
+																</span>
+															</a>
+														</td>
+										<?php
+													}
+												} else if ($current=='Company'){
+													if($num>0){
+										?>
+														<td class="anchor-wrap anchor1-wrap" data-role="anchor1">
+															<a class="showSingle click-here" target="3" data-role="cont" >
+																	<!--<i class="cg-icon"></i>-->
+																	<!-- <img src="uploads/m-rpr.png"> -->
+																	<span class="desc" >
+																	<center>
+																		Company
+																	</center>
+																	</span>
+															</a>
+														</td>
+										<?php
+													}else{
+										?>
+														<td class="anchor-wrap anchor1-wrap" data-role="anchor1">
+															<a class="click-here" target="3" data-role="cont" >
+																<!--<i class="cg-icon"></i>-->
+																	<span class="desc">
+																	<center>
+																		Company
+																	</center>
+																	</span>
+															</a>
+														</td>
+										<?php
+													}
+												}
+											}
+										?>
 
             </table>  
 
@@ -529,7 +531,7 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
 
 								$current = $categories[$x];
 							    
-							    $sql = "SELECT count(job_category) AS total FROM jobs WHERE job_category ='$current'";
+							    $sql = "SELECT count(user_type) AS total FROM user WHERE user_type ='$current'";
 
 								$result = mysqli_query($conn, $sql);
 
@@ -698,14 +700,14 @@ th {
                 	<?php
             			include 'includes/connection/dbh.inc.php';
 
-            			$categories =array("Accounting/Finance", "Admin/Human Resources", "Arts/Media/Communications", "Building/Construction", "Computer/Information Technology", "Education/Training",  "Engineering", "Healthcare", "Hotel/Restaurant", "Manufacturing", "Sales/Marketing", "Sciences", "Services");
+            			$categories =array("Student", "Mentor", "Company");
 
 
             			for($x = 0; $x < $len; $x++) {
 
 							$current = $categories[$x];
 						    
-						    $sql = "SELECT count(job_category) AS total FROM jobs WHERE job_category ='$current' ";
+						    $sql = "SELECT count(user_type) AS total FROM user WHERE user_type ='$current' ";
 
 							$result = mysqli_query($conn, $sql);
 
@@ -715,1006 +717,271 @@ th {
 
 						    if($num>0){
 
-						    	if($current=='Accounting/Finance'){	
+						    	if($current=='Student'){	
 						    		$COUNT=0;
 						    		?>
 						    			<div class="item util-clearfix targetDiv" data-spm="3" id="div1">
 					                        <h3 class="big-title" data-role="anchor3-scroll">
 					                            <span id="anchor3" class="anchor-subsitution"></span>
-					                            Accounting/Finance
+					                            Student
 					                        </h3>
 					                                  
 					                                <br/>			   
 					                                    	<?php
 
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
+											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$stmt = mysqli_stmt_init($conn);
+											if (!mysqli_stmt_prepare($stmt, $sql)) {
+												die('SQL Failed: ' . mysqli_error($conn));
+											} else {
+												mysqli_stmt_execute($stmt);
+											
+												mysqli_stmt_store_result($stmt);
+											
+												$resultCheck = mysqli_stmt_num_rows($stmt);
 
+												$output = '';
 
-					                                    	$output = '';
+												$output .= '
+													<div class="table-responsive" id="jobTable">
+													<table class="jobTabs" width="1200px">
+														<tr >
+															<th >Company Name</th>
+															<th >Job Title</th>
+															<th >Location</th>
+															<th >Cotact No.</th>
+															<th >Date Posted</th>
 
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
+														</tr>
+												';
 
-															    </tr>
-															';
+												if ($resultCheck > 0) {
+													$count = 0;
 
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
+													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$stmt = mysqli_stmt_init($conn);
+
+													if (!mysqli_stmt_prepare($stmt, $sql)) {
+														die('SQL Failed: ' . mysqli_error($conn));
+													} else {
+														mysqli_stmt_execute($stmt);
+
+														$result = mysqli_stmt_get_result($stmt);
+
+														while ($row = mysqli_fetch_assoc($result)) {
+															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															      <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
+															     <td>'.$row["user_name"].'</td>
+															      
 															    
 															    </tr>
 															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
+														}
+													}
+												} else {
+													$output .= '
 															  <tr>
 															    <td colspan="9" align="center">No Job Posted</td>
 															  </tr>
 															  ';
-															}
-
-															$output .= '</table></div>';
+												}
+												$output .= '</table></div>';
 															echo $output;
-															?>
-					                                    </ul>
+
+											?>
+												</ul>
 					                                    <?php 
-					                                    	if($COUNT>20){
+					                                    	if($count>20){
 					                                    ?>
 					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
 					                                	<?php } ?>
-					                              
-					                    </div>
-					                    <?php
-					                }
+											<?php
+											}
+															
+											?>
+																			
+																
+											</div>
+											<?php
+									}
 
 
 								
-						    	else if($current=='Admin/Human Resources'){
+						    	else if($current=='Mentor'){
 						    		$COUNT=0;
 						    		?>
 						    			<div class="item util-clearfix targetDiv" data-spm="2" id="div2">
 					                        <h3 class="big-title " data-role="anchor2-scroll">
 					                            <span id="anchor2" class="anchor-subsitution"></span>
-					                            Admin/Human Resources
+					                            Mentor
 					                        </h3>
 					                                 <br/>			   
 					                                    	<?php
 
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
+											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$stmt = mysqli_stmt_init($conn);
+											if (!mysqli_stmt_prepare($stmt, $sql)) {
+												die('SQL Failed: ' . mysqli_error($conn));
+											} else {
+												mysqli_stmt_execute($stmt);
+											
+												mysqli_stmt_store_result($stmt);
+											
+												$resultCheck = mysqli_stmt_num_rows($stmt);
 
+												$output = '';
 
-					                                    	$output = '';
+												$output .= '
+													<div class="table-responsive" id="jobTable">
+													<table class="jobTabs" width="1200px">
+														<tr >
+															<th >Company Name</th>
+															<th >Job Title</th>
+															<th >Location</th>
+															<th >Cotact No.</th>
+															<th >Date Posted</th>
 
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
+														</tr>
+												';
 
-															    </tr>
-															';
+												if ($resultCheck > 0) {
+													$count = 0;
 
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
+													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$stmt = mysqli_stmt_init($conn);
+
+													if (!mysqli_stmt_prepare($stmt, $sql)) {
+														die('SQL Failed: ' . mysqli_error($conn));
+													} else {
+														mysqli_stmt_execute($stmt);
+
+														$result = mysqli_stmt_get_result($stmt);
+
+														while ($row = mysqli_fetch_assoc($result)) {
+															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
+															     <td>'.$row["user_name"].'</td>
+															      
 															    
 															    </tr>
 															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
+														}
+													}
+												} else {
+													$output .= '
 															  <tr>
 															    <td colspan="9" align="center">No Job Posted</td>
 															  </tr>
 															  ';
-															}
-
-															$output .= '</table></div>';
+												}
+												$output .= '</table></div>';
 															echo $output;
-															?>
-					                                    </ul>
+
+											?>
+												</ul>
 					                                    <?php 
-					                                    	if($COUNT>20){
+					                                    	if($count>20){
 					                                    ?>
 					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
 					                                	<?php } ?>
+											<?php
+											}
+															
+											?>
+																			
 					                    </div>
 					                    <?php
 					                }
 
-						    	else if($current=='Arts/Media/Communications'){
+						    	else if($current=='Company'){
 						    		$COUNT=0;
 						    		?>
 						    			<div class="item util-clearfix targetDiv" data-spm="3" id="div3">
 					                        <h3 class="big-title " data-role="anchor3-scroll">
 					                            <span id="anchor3" class="anchor-subsitution"></span>
-					                            Arts/Media/Communications
+					                            Company
 					                        </h3>
 					                                <br/>			   
 					                                    	<?php
 
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
+											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$stmt = mysqli_stmt_init($conn);
+											if (!mysqli_stmt_prepare($stmt, $sql)) {
+												die('SQL Failed: ' . mysqli_error($conn));
+											} else {
+												mysqli_stmt_execute($stmt);
+											
+												mysqli_stmt_store_result($stmt);
+											
+												$resultCheck = mysqli_stmt_num_rows($stmt);
 
+												$output = '';
 
-					                                    	$output = '';
+												$output .= '
+													<div class="table-responsive" id="jobTable">
+													<table class="jobTabs" width="1200px">
+														<tr >
+															<th >Company Name</th>
+															<th >Job Title</th>
+															<th >Location</th>
+															<th >Cotact No.</th>
+															<th >Date Posted</th>
 
-															$output .= '
-															 <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
+														</tr>
+												';
 
-															    </tr>
-															';
+												if ($resultCheck > 0) {
+													$count = 0;
 
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
+													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$stmt = mysqli_stmt_init($conn);
+
+													if (!mysqli_stmt_prepare($stmt, $sql)) {
+														die('SQL Failed: ' . mysqli_error($conn));
+													} else {
+														mysqli_stmt_execute($stmt);
+
+														$result = mysqli_stmt_get_result($stmt);
+
+														while ($row = mysqli_fetch_assoc($result)) {
+															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
+															     <td>'.$row["user_name"].'</td>
+															      
 															    
 															    </tr>
 															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
+														}
+													}
+												} else {
+													$output .= '
 															  <tr>
 															    <td colspan="9" align="center">No Job Posted</td>
 															  </tr>
 															  ';
-															}
-
-															$output .= '</table></div>';
+												}
+												$output .= '</table></div>';
 															echo $output;
-															?>
-					                                    </ul>
+
+											?>
+												</ul>
 					                                    <?php 
-					                                    	if($COUNT>20){
+					                                    	if($count>20){
 					                                    ?>
 					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
 					                                	<?php } ?>
+											<?php
+											}
+															
+											?>
+																			
 					                    </div>
 					                    <?php
 					                }
-
-						
-						    	else if($current=='Building/Construction'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="2" id="div4">
-					                        <h3 class="big-title " data-role="anchor2-scroll">
-					                            <span id="anchor2" class="anchor-subsitution"></span>
-					                            Building/Construction
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    
-															    </tr>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-
-						    	else if($current=='Computer/Information Technology'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="3" id="div5">
-					                        <h3 class="big-title " data-role="anchor3-scroll">
-					                            <span id="anchor3" class="anchor-subsitution"></span>
-					                            Computer/Information Technology
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    
-															    </tr>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-						    	else if($current=='Education/Training'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="6" id="div6">
-					                        <h3 class="big-title " data-role="anchor6-scroll">
-					                            <span id="anchor6" class="anchor-subsitution"></span>
-					                            <i class="cg-icon"></i>
-					                            Education/Training
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-														$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    
-															    </tr>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-
-						    	else if($current=='Engineering'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="8" id="div7">
-					                        <h3 class="big-title " data-role="anchor8-scroll">
-					                            <span id="anchor8" class="anchor-subsitution"></span>
-					                            Engineering
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-														$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															   <tr>
-															    <td>'.$row["company_name"].'</td>
-															    <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															 
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-						    	else if($current=='Healthcare'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="9" id="div8">
-					                        <h3 class="big-title " data-role="anchor9-scroll">
-					                            <span id="anchor9" class="anchor-subsitution"></span>
-					                            Healthcare
-					                        </h3>
-					                                  
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															  
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-
-						    	else if($current=='Hotel/Restaurant'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="6" id="div9">
-					                        <h3 class="big-title " data-role="anchor6-scroll">
-					                            <span id="anchor6" class="anchor-subsitution"></span>
-					                            Hotel/Restaurant
-					                        </h3>
-					                                 <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															   <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-
-						    	else if($current=='Manufacturing'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="8" id="div10">
-					                        <h3 class="big-title" data-role="anchor8-scroll">
-					                            <span id="anchor8" class="anchor-subsitution"></span>
-					                            Manufacturing
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-						    	else if($current=='Sales/Marketing'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="10" id="div11">
-					                        <h3 class="big-title " data-role="anchor10-scroll">
-					                            <span id="anchor10" class="anchor-subsitution"></span>
-					                            Sales/Marketing
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-					                else if($current=='Sciences'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="10" id="div12">
-					                        <h3 class="big-title " data-role="anchor10-scroll">
-					                            <span id="anchor10" class="anchor-subsitution"></span>
-					                           Sciences
-					                        </h3>
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
-
-						    	else if($current=='Services'){
-						    		$COUNT=0;
-						    		?>
-						    			<div class="item util-clearfix targetDiv" data-spm="12" id="div13">
-					                        <h3 class="big-title " data-role="anchor12-scroll">
-					                            <span id="anchor12" class="anchor-subsitution"></span>
-					                            Services
-					                        </h3>
-					                                  
-					                                <br/>			   
-					                                    	<?php
-
-					                                    		$query = "SELECT * FROM jobs WHERE job_category = '$current' ORDER BY job_id DESC";
-																	$statement = $connect->prepare($query);
-																	$statement->execute();
-																	$result = $statement->fetchAll();
-																	$number_of_rows = $statement->rowCount();
-
-
-					                                    	$output = '';
-
-															$output .= '
-															  <div class="table-responsive" id="jobTable">
-															  <table class="jobTabs" width="1200px">
-															    <tr >
-															      <th >Company Name</th>
-															      <th >Job Title</th>
-															      <th >Location</th>
-															      <th >Cotact No.</th>
-															      <th >Date Posted</th>
-
-															    </tr>
-															';
-
-															if($number_of_rows > 0)
-															{
-															  $count = 0;
-															  foreach($result as $row)
-															  {
-															    $count ++; 
-															    $output .= '
-															    <tr>
-															     <td>'.$row["company_name"].'</td>
-															     <td >
-																  <a href = "jobtest.php?jobID='.$row["job_id"].'">
-																  '.$row["job_title"].'
-																  </a>
-																  </td>
-															      <td>'.$row["job_location"].'</td>
-															      <td>'.$row["job_contactno"].'</td>
-															      <td>'.$row["job_date"].'</td>
-															    </tr>
-															    ';
-															    }
-															  }
-															else
-															{
-															  $output .= '
-															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
-															  </tr>
-															  ';
-															}
-
-															$output .= '</table></div>';
-															echo $output;
-															?>
-					                                    </ul>
-					                                    <?php 
-					                                    	if($COUNT>20){
-					                                    ?>
-					                                    <a href="javascript:;" class="more more-or-less" data-role="view-more" data-fold="Y">View More</a>
-					                                	<?php } ?>
-					                    </div>
-					                    <?php
-					                }
+						    	
 
 
 						    }
