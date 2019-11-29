@@ -5,7 +5,7 @@ session_start();
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 $companyID = $_SESSION['companyID'];
-$url = $_SESSION['url'];
+$url = $_SESSION['company_url'];
 
 if (isset($_POST['document_id'])) {
   $fileLocation = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'documents' . DIRECTORY_SEPARATOR . $_POST['document_name'];

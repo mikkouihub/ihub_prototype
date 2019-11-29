@@ -187,7 +187,7 @@
             <a href="#about"><i class="title-icon fa fa-dashboard"></i>About</a>
             <a href="#portfolios"><i class="title-icon fa fa-archive"></i>Portfolios</a>
             <a href="#testimonials"><i class="title-icon fa fa-users"></i>Testimonials</a>
-            <a href="edit-student.php"><i class="title-icon fa fa-edit"></i>Edit Profile</a>
+            <a href="edit-company.php"><i class="title-icon fa fa-edit"></i>Edit Profile</a>
             <form action="../includes/user-management/logout.inc.php" method="POST"><button type="submit" name="logout" style="background:none; border:none; padding-left: 23px"><i class="title-icon fa fa-sign-out"></i>Log out</button></form>
         </div>
 

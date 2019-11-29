@@ -5,7 +5,7 @@ session_start();
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 $companyID = $_SESSION['companyID'];
-$url = $_SESSION['url'];
+$url = $_SESSION['company_url'];
 
 $sql = "SELECT * FROM `company_product_service` WHERE company_ID = $companyID";
 $stmt = mysqli_stmt_init($conn);

@@ -165,7 +165,8 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Me
           <div class="logo"><span class="wsite-logo">
 
 	<a href="">
-		<img src="uploads/1/1/3/2/113269475/published/enhanced-logo_3.jpeg?1510553631" alt="Filceb" />
+		<!-- <img src="uploads/1/1/3/2/113269475/published/enhanced-logo_3.jpeg?1510553631" alt="Filceb" /> -->
+		<img src="uploads/1/1/3/2/113269475/published/uihub_logo.png?1510553631" alt="Filceb" />
 	</a>
 
 </span></div>

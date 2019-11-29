@@ -105,6 +105,10 @@ if (isset($_POST['_utf8'])) {
                         mkdir($target_dir, true);						
                         chmod($target_dir, 0777);
 
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'portfolio';
+                        mkdir($target_dir, true);
+                        chmod($target_dir, 0777);
+
                         $sql = "SELECT * FROM user, student WHERE user.user_ID = $user_fk AND student.user_ID = $user_fk";
                         $stmt = mysqli_stmt_init($conn);
 
@@ -160,6 +164,10 @@ if (isset($_POST['_utf8'])) {
                         mkdir($target_dir, true);						
                         chmod($target_dir, 0777);
                         $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR . "mentor_header";
+                        mkdir($target_dir, true);						
+                        chmod($target_dir, 0777);
+
+                        $target_dir = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'business' . DIRECTORY_SEPARATOR . 'mentors' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . "portfolio";
                         mkdir($target_dir, true);						
                         chmod($target_dir, 0777);
 

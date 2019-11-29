@@ -4,8 +4,8 @@ session_start();
 
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
-$companyID = $_SESSION['companyID'];
-$url = $_SESSION['company_url'];
+$studentID = $_SESSION['userID'];
+$url = $_SESSION['student_url'];
 
 if (count($_FILES["product-service-files"]["name"]) > 0) {
   sleep(3);
@@ -18,10 +18,10 @@ if (count($_FILES["product-service-files"]["name"]) > 0) {
 
     $file_name = uniqid('', true) . "." . $file_extension;
 
-    $fileLocation = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'products-services' . DIRECTORY_SEPARATOR . $file_name;
+    $fileLocation = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'students' . DIRECTORY_SEPARATOR . $url . DIRECTORY_SEPARATOR . 'portfolio' . DIRECTORY_SEPARATOR . $file_name;
 
     if (move_uploaded_file($tmp_name, $fileLocation)) {
-      $sql = "INSERT INTO `company_product_service` (`product_service_ID`, `product_service_image`, `product_service_name`, `product_service_price`, `product_service_description`, `product_service_type`, `product_service_category`, `product_service_sub_category`, `is_featured`, `is_deleted`, `company_ID`) VALUES (NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', $companyID);";
+      $sql = "INSERT INTO `portfolio` (`portfolio_ID`, `portfolio_image`, `portfolio_name`, `portfolio_desc`, `user_ID`) VALUES (NULL, ?, '', '', $studentID);";
       $stmt = mysqli_stmt_init($conn);
 
       if (!mysqli_stmt_prepare($stmt, $sql)) {

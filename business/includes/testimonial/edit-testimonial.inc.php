@@ -5,7 +5,7 @@ session_start();
 require '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'connection' . DIRECTORY_SEPARATOR . 'dbh.inc.php';
 
 $companyID = $_SESSION['companyID'];
-$url = $_SESSION['url'];
+$url = $_SESSION['company_url'];
 
 if (isset($_POST['testimonial_id'])) {
   $sql = "UPDATE `company_testimonial` SET `testimonial_name` = ?, `testimonial_description` = ? WHERE `company_testimonial`.`testimonial_ID` = ?;";

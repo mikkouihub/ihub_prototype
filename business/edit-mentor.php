@@ -895,7 +895,103 @@
 <!--==========================================
                   PORTFOLIOS
 ===========================================-->
+<section id="portfolios" class="section">
+    <div class="container">
+        <!-- SECTION TITLE -->
+        <div class="section-title">
+            <h4 class="text-uppercase text-center"><img src="images/icons/safe.png" alt="demo">Portfolios<a href="portfolio.php" style="margin-left: 20px;" target="_blank"><i class="fa fa-edit"></i></a></h4>
+        </div>
+        <div id="portfolios-card" class="row">
 
+            <!--OPTIONS-->
+            <ul class="nav nav-tabs">
+                <!--ALL CATEGORIES-->
+                <li class="active waves-effect list-shuffle"><a id="all-sample" class="active" href="#all"
+                                                                data-toggle="tab">PORTFOLIOS</a>
+            </ul>
+
+            <!--CATEGORIES CONTENT-->
+            <div class="tab-content">
+
+                <!--CATEGORY 3-->
+                <div id="all">
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--CATEGORY CONTENT THREE SMALL-->
+                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
+                        <figure class="port-effect-up">
+                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
+                            <figcaption>
+                                <h2>Lightbox <span> IMAGE</span></h2>
+                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
+                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
+                                   data-effect="mfp-move-horizontal">View more</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!--==========================================
                    INTEREST
