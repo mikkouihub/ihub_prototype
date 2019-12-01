@@ -509,90 +509,15 @@
 
             <!--OPTIONS-->
             <ul class="nav nav-tabs">
-                    <!--CATEGORIES-->
-                <?php
-
-                        if ($companyBusinessType == 1) {
-                ?>
-                            <li class="active waves-effect list-shuffle"><a id="show-products" class="active" href="#products" data-toggle="tab">PRODUCTS</a></li>
-                <?php
-                        } elseif ($companyBusinessType == 2) {
-                ?>
-                            <li class="active waves-effect list-shuffle"><a id="show-services" class="active" href="#services" data-toggle="tab">SERVICES</a></li>
-                <?php
-                        } elseif ($companyBusinessType == 3) {
-                ?>
-                            <li class="active waves-effect list-shuffle"><a id="show-products" class="active" href="#products" data-toggle="tab">PRODUCTS</a></li>
-                            <li class="waves-effect list-shuffle"><a id="show-services" class="cate" href="#services" data-toggle="tab">SERVICES</a></li>
-                <?php
-                        }
-                ?>
+                    <!--ALL CATEGORIES-->
+                <li class="active waves-effect list-shuffle"><a id="all-sample" class="active" href="#all"
+                                                                data-toggle="tab">PORTFOLIOS</a>
             </ul>
 
             <!--CATEGORIES CONTENT-->
             <div class="tab-content">
 
-                <?php
-                    if ($companyBusinessType == 1) {
-                ?>
-                        <!--CATEGORY PRODUCTS-->
-                        <div id="products"></div>
-                <?php
-                    } elseif ($companyBusinessType == 2) {
-                ?>
-                        <!--CATEGORY SERVICES-->
-                        <div id="services"></div>
-                <?php
-                    } elseif ($companyBusinessType == 3) {
-                ?>
-                        <!--All CATEGORIES-->
-                        <div id="products"></div>
-                        <div id="services"></div>
-                <?php
-                    }
-                ?>
-            </div>
-            <!--PORTFOLIOS ADD GALLERY BUTTON-->
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <button id="add-more" class="center-block btn-large waves-effect x hide"><i id="port-add-icon" class="fa fa-plus"></i>
-                    </button>
-                    <?php
-                        $product = false;
-                        $service = false;
-
-                        $sql = "SELECT * FROM company_product_service WHERE product_service_type = 1 AND company_ID = $companyID";
-                        $stmt = mysqli_stmt_init($conn);
-
-                        if (!mysqli_stmt_prepare($stmt, $sql)) {
-                            die('SQL Failed: ' . mysqli_error($conn));
-                        } else {
-                            mysqli_stmt_execute($stmt);
-                            mysqli_stmt_store_result($stmt);
-
-                            $resultCheck = mysqli_stmt_num_rows($stmt);
-
-                            if ($resultCheck > 6) {
-                                $product = true;
-                            }
-                        }
-
-                        $sql = "SELECT * FROM company_product_service WHERE product_service_type = 2 AND company_ID = $companyID";
-                        $stmt = mysqli_stmt_init($conn);
-
-                        if (!mysqli_stmt_prepare($stmt, $sql)) {
-                            die('SQL Failed: ' . mysqli_error($conn));
-                        } else {
-                            mysqli_stmt_execute($stmt);
-                            mysqli_stmt_store_result($stmt);
-
-                            $resultCheck = mysqli_stmt_num_rows($stmt);
-
-                            if ($resultCheck > 6) {
-                                $service = true;
-                            }
-                        }
-                    ?>
+                <div id="all">
                 </div>
             </div>
         </div>
@@ -876,99 +801,26 @@
 <!-- Products & Services Script -->
 <script>
     $(document).ready(function () {
-        var business_type = "<?php echo $companyBusinessType; ?>";
-        var company_id = "<?php echo $companyBusinessType; ?>";
-        var company_url = "<?php echo $companyBusinessType; ?>";
-        var product = "<?php echo $product; ?>";
-        var service = "<?php echo $service; ?>";
+        var company_id = "<?php echo $companyID; ?>";
+        var company_url = "<?php echo $companyURL; ?>";
 
-        if (product == "1") {
-            document.querySelector('#add-more').classList.remove("hide");
+        load_all();
+
+        function load_all() {
+            $.ajax({
+                url:"includes/product-service/load-all.inc.php",
+                method:"POST",
+                data: { company_id:company_id, company_url:company_url },
+                success:function(data) {
+                    $('#all').html(data);
+                    alert(data)
+                }
+            });
         }
 
-        if (business_type == 1) {
+        $(document).on('click', '#all', function(){
             load_all();
-
-            function load_all() {
-                $.ajax({
-                    url:"includes/product-service/load-all.inc.php",
-                    method:"POST",
-                    data: { business_type:business_type, company_id:company_id, company_url:company_url },
-                    success:function(data) {
-                        $('#products').html(data);
-                    }
-                });
-            }
-
-            $(document).on('click', '#show-products', function(){
-                load_all();
-            }); 
-        } else if (business_type == 2) {
-            load_all();
-
-            function load_all() {
-                $.ajax({
-                    url:"includes/product-service/load-all.inc.php",
-                    method:"POST",
-                    data: { business_type:business_type, company_id:company_id, company_url:company_url },
-                    success:function(data) {
-                        $('#services').html(data);
-                    }
-                });
-            }
-
-            $(document).on('click', '#show-services', function(){
-                load_all();
-            }); 
-        } else if (business_type == 3) {
-            load_product();
-
-            function load_product() {
-                $.ajax({
-                    url:"includes/product-service/load-product.inc.php",
-                    method:"POST",
-                    data: { business_type:business_type, company_id:company_id, company_url:company_url },
-                    success:function(data) {
-                        $('#products').html(data);
-                    }
-                });
-            }
-
-            function load_service() {
-                $.ajax({
-                    url:"includes/product-service/load-service.inc.php",
-                    method:"POST",
-                    data: { business_type:business_type, company_id:company_id, company_url:company_url },
-                    success:function(data) {
-                        $('#services').html(data);
-                    }
-                });
-            }
-
-            $(document).on('click', '#show-products', function(){
-                document.querySelector('#products').setAttribute("class", "active");
-                document.querySelector('#services').removeAttribute("class");
-                document.querySelector('#products').removeAttribute("style");
-                document.querySelector('#services').style.display = 'none';
-                if (product == "1") {
-                    document.querySelector('#add-more').classList.remove("hide");
-                } else {
-                    document.querySelector('#add-more').classList.add("hide");
-                }
-                load_product();
-            }); 
-            $(document).on('click', '#show-services', function(){
-                document.querySelector('#products').removeAttribute("class");
-                document.querySelector('#services').removeAttribute("style");
-                document.querySelector('#products').style.display = 'none';
-                if (service == "1") {
-                    document.querySelector('#add-more').classList.remove("hide");
-                } else {
-                    document.querySelector('#add-more').classList.add("hide");
-                }
-                load_service();
-            }); 
-        }
+        }); 
     });
 </script>
 </body>

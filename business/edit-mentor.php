@@ -1337,6 +1337,30 @@
     //     })
     // }
 </script>
+<!-- Products & Services Script -->
+<script>
+    $(document).ready(function () {
+        var mentor_id = "<?php echo $userID; ?>";
+        var mentor_url = "<?php echo $mentor_url; ?>";
+
+        load_all();
+
+        function load_all() {
+            $.ajax({
+                url:"includes/portfolio/load-mentor.inc.php",
+                method:"POST",
+                data: { mentor_id:mentor_id, mentor_url:mentor_url },
+                success:function(data) {
+                    $('#all').html(data);
+                }
+            });
+        }
+
+        $(document).on('click', '#all', function(){
+            load_all();
+        }); 
+    });
+</script>
 <!-- Social Media Script -->
 <!-- FACEBOOK -->
 <script>

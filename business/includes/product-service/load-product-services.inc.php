@@ -25,9 +25,6 @@ if (!mysqli_stmt_prepare($stmt, $sql)) {
         <th>Product/<br>Service</th>
         <th>Name</th>
         <th>Price</th>
-        <th>Business Type</th>
-        <th>Category</th>
-        <th>Sub-category</th>
         <th>Description</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -59,9 +56,6 @@ if (!mysqli_stmt_prepare($stmt, $sql)) {
             </td>
             <td>' . $row['product_service_name'] . '</td>
             <td>' . '₱' . number_format($row["product_service_price"], 2) . '</td>
-            <td>' . $row['product_service_type'] . '</td>
-            <td>' . $row['product_service_category'] . '</td>
-            <td>' . $row['product_service_sub_category'] . '</td>
             <td>' . $row['product_service_description'] . '</td>
             <td>
               <button type="submit" class="btn btn-warning btn-xs edit" id="' . $row['product_service_ID'] . '">Edit</button>

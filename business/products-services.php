@@ -58,27 +58,10 @@
 							<label>Product / Service Description</label>
 							<textarea type="text" name="product_service_description" id="product_service_description" class="form-control" placeholder="Product / Service Description"></textarea>
 						</div>
-						<div class="form-group">
-							<label class="field-label">Your Business Type</label>
-								<select name="product_service_type" id="product_service_type" class="form-control categorydropdown" required>
-							</select>
-						</div>
-						<div class="form-group">
-							<label class="field-label">Select Category</label>
-								<select name="product_service_category" id="product_service_category" class="form-control categorydropdown" required disabled>
-									<option value="">Select Category</option>
-								</select>
-						</div>
-						<div class="form-group">
-							<label class="field-label">Select Sub-category</label>
-								<select name="product_service_sub_category" id="product_service_sub_category" class="form-control categorydropdown" required disabled>
-									<option value="">Select Sub-category</option>
-								</select>
-						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" name="product_service_id" id="product_service_id" value="" />
-						<input type="submit" name="submit" id="submit" class="btn btn-info" value="Save" disabled/>
+						<input type="submit" name="submit" id="submit" class="btn btn-info" value="Save"/>
 						<button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 					</form>
@@ -103,56 +86,6 @@
 				}
 			});
 		}
-
-		$.ajax({
-			type:'POST',
-			url:'includes/product-service/load-product-services-type.inc.php',
-			success:function(html){
-					$('#product_service_type').html(html);
-			}
-		});
-
-		function chainSelect(current, target){
-			var value1 = $(current).on('change', function() {
-				if($(this).find(':selected').val() != ''){
-					$(target).removeAttr('disabled');
-					var value = $(this).find(':selected').text();
-				} else {
-					$(target).prop('disabled', 'disabled').val(null);
-				}
-			  return value;
-			});
-				return value1;
-		}
-		
-		type = chainSelect('select#product_service_type', '#product_service_category');
-		category = chainSelect('select#product_service_category', '#product_service_sub_category');
-		sub_category = chainSelect('select#product_service_type', '#product_service_sub_category');
-		submit = chainSelect('select#product_service_sub_category', '#submit');
-
-		$('#product_service_type').on('change', function() {
-			business_type = $(this).val();
-			$.ajax({
-				type:'POST',
-				url:'includes/product-service/load-product-services-category.inc.php',
-				data: { "company_business_type": business_type },
-				success:function(html) {
-						$('#product_service_category').html(html);
-				}
-			});
-		});
-
-		$('#product_service_category').on('change', function() {
-			category = $(this).val();
-			$.ajax({
-					type:'POST',
-					url:'includes/product-service/load-product-services-sub-category.inc.php',
-					data: { "category_id": category, "company_business_type": business_type },
-					success:function(html){
-						$('#product_service_sub_category').html(html);
-					}
-			});
-		});
 
 		$('#product-service-files').change(function() {
 			var error_images = '';
@@ -220,10 +153,6 @@
           $('#product_service_id').val(product_service_id);
           $('#product_service_name').val(data.product_service_name);
 					$('#product_service_price').val(data.product_service_price);
-					// $('#Minimum_Order_Quantity').val(data.Minimum_Order_Quantity);
-					$('#product_service_type').val(data.product_service_type);
-					$('#product_service_category').val(data.product_service_category);
-					$('#product_service_sub_category').val(data.product_service_sub_category);
 					$('#product_service_description').val(data.product_service_description);
         }
       });

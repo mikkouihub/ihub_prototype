@@ -21,10 +21,6 @@ if (!mysqli_stmt_prepare($stmt, $sql)) {
   while ($row = mysqli_fetch_assoc($result)) {
     $output['product_service_name'] = $row["product_service_name"];
     $output['product_service_price'] = $row["product_service_price"];
-    // $output['Minimum_Order_Quantity'] = $row["Min_Order_Quantity"];
-    $output['product_service_type'] = $row["product_service_type"];
-    $output['product_service_category'] = $row["product_service_category"];
-    $output['product_service_sub_category'] = $row["product_service_sub_category"];
     $output['product_service_description'] = $row["product_service_description"];
   }
 

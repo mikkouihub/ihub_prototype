@@ -869,78 +869,6 @@
 
                 <!--CATEGORY 3-->
                 <div id="all">
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!--CATEGORY CONTENT THREE SMALL-->
-                    <div class="col-md-4 col-sm-6 col-xs-12 grid inRight">
-                        <figure class="port-effect-up">
-                            <img src="images/portfolios/portfolio-2.jpg" class="img-responsive" alt="portfolio-demo"/>
-                            <figcaption>
-                                <h2>Lightbox <span> IMAGE</span></h2>
-                                <p>Two Hover Effect For Portfolio Grid Blocks. Its Up</p>
-                                <a href="images/portfolios/portfolio-2.jpg" class="popup-image"
-                                   data-effect="mfp-move-horizontal">View more</a>
-                            </figcaption>
-                        </figure>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1012,5 +940,29 @@
 <script src="javascript/vendors/jquery.magnific-popup.min.js"></script>
 <script src="javascript/custom.js"></script>
 
+<!-- Products & Services Script -->
+<script>
+    $(document).ready(function () {
+        var mentor_id = "<?php echo $userID; ?>";
+        var mentor_url = "<?php echo $mentor_url; ?>";
+
+        load_all();
+
+        function load_all() {
+            $.ajax({
+                url:"includes/portfolio/load-mentor.inc.php",
+                method:"POST",
+                data: { mentor_id:mentor_id, mentor_url:mentor_url },
+                success:function(data) {
+                    $('#all').html(data);
+                }
+            });
+        }
+
+        $(document).on('click', '#all', function(){
+            load_all();
+        }); 
+    });
+</script>
 </body>
 </html>
