@@ -22,54 +22,43 @@
 ?>
 
 <?php
-//   if (isset($_GET['company'])) {
-//     $companyName = $_GET['company'];
+  if (isset($_GET['mentor'])) {
+    $mentorName = $_GET['mentor'];
 
-//     $sql = "SELECT * FROM company WHERE company_url = ?";
-//     $stmt = mysqli_stmt_init($conn);
+    $sql = "SELECT * FROM mentor WHERE mentor_url = ?";
+    $stmt = mysqli_stmt_init($conn);
   
-//     if (!mysqli_stmt_prepare($stmt, $sql)) {
-//       die('SQL Failed: ' . mysqli_error($conn));
-//     } else {
-//       mysqli_stmt_bind_param($stmt, "s", $companyName);
-//       mysqli_stmt_execute($stmt);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+      die('SQL Failed: ' . mysqli_error($conn));
+    } else {
+      mysqli_stmt_bind_param($stmt, "s", $mentorName);
+      mysqli_stmt_execute($stmt);
       
-//       $result = mysqli_stmt_get_result($stmt);
+      $result = mysqli_stmt_get_result($stmt);
   
-//       while ($row = mysqli_fetch_assoc($result)) {
-//           $companyID = $row['company_ID'];
-//           $companyName = $row['company_name'];
-//           $companyEmail = $row['company_email'];
-//           $companyAddress = $row['company_address'];
-//           $companyContactNo = $row['company_contact_number'];
-//           $companyBusinessType = $row['company_business_type'];
-//           $companyURL = $row['company_url'];
-//         //   $companyOwnerImage = $_SESSION['companyOwnerImage'];
-//         //   $companyLogoImage = $_SESSION['companyLogoImage'];
-//         //   $companyHeaderImage = $_SESSION['companyHeaderImage'];
-//         //   $companyVideos = $_SESSION['companyVideos'];
-//           $companyTagline = $row['company_tagline'];
-//           $companyInfo = $row['company_info'];
-//           $companyOwnerInfo = $row['company_owner_info'];
-//       }
+      while ($row = mysqli_fetch_assoc($result)) {
+          $mentorID = $row['mentor_id'];
+          $id = $row['user_ID'];
+          $mentor_url = $row['mentor_url'];
+      }
   
-//       $sql = "SELECT * FROM user WHERE user_ID = $companyID";
-//       $stmt = mysqli_stmt_init($conn);
+      $sql = "SELECT * FROM user WHERE user_ID = $id";
+      $stmt = mysqli_stmt_init($conn);
   
-//       if (!mysqli_stmt_prepare($stmt, $sql)) {
-//           die('SQL Failed: ' . mysqli_error($conn));
-//       } else {
-//           mysqli_stmt_execute($stmt);
+      if (!mysqli_stmt_prepare($stmt, $sql)) {
+          die('SQL Failed: ' . mysqli_error($conn));
+      } else {
+          mysqli_stmt_execute($stmt);
           
-//           $result = mysqli_stmt_get_result($stmt);
+          $result = mysqli_stmt_get_result($stmt);
   
-//           while ($row_user = mysqli_fetch_assoc($result)) {
-//               $userID = $row_user['user_ID'];
-//               $fullName = $row_user['user_name'];
-//           }
-//       }
-//     }
-//   }
+          while ($row_user = mysqli_fetch_assoc($result)) {
+              $userID = $row_user['user_ID'];
+              $fullName = $row_user['user_name'];
+          }
+      }
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -729,7 +729,7 @@ th {
 					                                <br/>			   
 					                                    	<?php
 
-											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$sql = "SELECT * FROM user, student WHERE user_type = '$current' ORDER BY user_name DESC";
 											$stmt = mysqli_stmt_init($conn);
 											if (!mysqli_stmt_prepare($stmt, $sql)) {
 												die('SQL Failed: ' . mysqli_error($conn));
@@ -746,11 +746,7 @@ th {
 													<div class="table-responsive" id="jobTable">
 													<table class="jobTabs" width="1200px">
 														<tr >
-															<th >Company Name</th>
-															<th >Job Title</th>
-															<th >Location</th>
-															<th >Cotact No.</th>
-															<th >Date Posted</th>
+															<th >Student Name</th>
 
 														</tr>
 												';
@@ -758,7 +754,7 @@ th {
 												if ($resultCheck > 0) {
 													$count = 0;
 
-													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$sql = "SELECT * FROM user, student WHERE user_type = '$current' ORDER BY user_name DESC";
 													$stmt = mysqli_stmt_init($conn);
 
 													if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -772,7 +768,9 @@ th {
 															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["user_name"].'</td>
+																	<td><a href = "business/student.php?student='.$row["student_url"].'" target="_blank">
+																  '.$row["user_name"].'
+																  </a></td>
 															      
 															    
 															    </tr>
@@ -782,7 +780,7 @@ th {
 												} else {
 													$output .= '
 															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
+															    <td colspan="9" align="center">No Users</td>
 															  </tr>
 															  ';
 												}
@@ -819,7 +817,7 @@ th {
 					                                 <br/>			   
 					                                    	<?php
 
-											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$sql = "SELECT * FROM user, mentor WHERE user_type = '$current' ORDER BY user_name DESC";
 											$stmt = mysqli_stmt_init($conn);
 											if (!mysqli_stmt_prepare($stmt, $sql)) {
 												die('SQL Failed: ' . mysqli_error($conn));
@@ -836,11 +834,7 @@ th {
 													<div class="table-responsive" id="jobTable">
 													<table class="jobTabs" width="1200px">
 														<tr >
-															<th >Company Name</th>
-															<th >Job Title</th>
-															<th >Location</th>
-															<th >Cotact No.</th>
-															<th >Date Posted</th>
+															<th >Mentor Name</th>
 
 														</tr>
 												';
@@ -848,7 +842,7 @@ th {
 												if ($resultCheck > 0) {
 													$count = 0;
 
-													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$sql = "SELECT * FROM user, mentor WHERE user_type = '$current' ORDER BY user_name DESC";
 													$stmt = mysqli_stmt_init($conn);
 
 													if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -862,7 +856,9 @@ th {
 															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["user_name"].'</td>
+																	<td><a href = "business/mentor.php?mentor='.$row["mentor_url"].'" target="_blank">
+																  '.$row["user_name"].'
+																  </a></td>
 															      
 															    
 															    </tr>
@@ -872,7 +868,7 @@ th {
 												} else {
 													$output .= '
 															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
+															    <td colspan="9" align="center">No Users</td>
 															  </tr>
 															  ';
 												}
@@ -906,7 +902,7 @@ th {
 					                                <br/>			   
 					                                    	<?php
 
-											$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+											$sql = "SELECT * FROM user, company WHERE user_type = '$current' ORDER BY user_name DESC";
 											$stmt = mysqli_stmt_init($conn);
 											if (!mysqli_stmt_prepare($stmt, $sql)) {
 												die('SQL Failed: ' . mysqli_error($conn));
@@ -924,10 +920,6 @@ th {
 													<table class="jobTabs" width="1200px">
 														<tr >
 															<th >Company Name</th>
-															<th >Job Title</th>
-															<th >Location</th>
-															<th >Cotact No.</th>
-															<th >Date Posted</th>
 
 														</tr>
 												';
@@ -935,7 +927,7 @@ th {
 												if ($resultCheck > 0) {
 													$count = 0;
 
-													$sql = "SELECT * FROM user WHERE user_type = '$current' ORDER BY user_name DESC";
+													$sql = "SELECT * FROM user, company WHERE user_type = '$current' ORDER BY user_name DESC";
 													$stmt = mysqli_stmt_init($conn);
 
 													if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -949,7 +941,9 @@ th {
 															$count ++; 
 															    $output .= '
 															    <tr>
-															     <td>'.$row["user_name"].'</td>
+																	<td><a href = "business/company.php?company='.$row["company_url"].'" target="_blank">
+																  '.$row["user_name"].'
+																  </a></td>
 															      
 															    
 															    </tr>
@@ -959,7 +953,7 @@ th {
 												} else {
 													$output .= '
 															  <tr>
-															    <td colspan="9" align="center">No Job Posted</td>
+															    <td colspan="9" align="center">No Users</td>
 															  </tr>
 															  ';
 												}
