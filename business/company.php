@@ -432,7 +432,23 @@
                     <div class="card-content">
                         <!-- ABOUT PARAGRAPH -->
                         <p>
-                            <?php echo nl2br($companyInfo); ?>
+                            <?php
+                                $sql = "SELECT company_info FROM company WHERE company_ID = $companyID";
+                                $stmt = mysqli_stmt_init($conn);
+                                
+                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                    die('SQL Failed: ' . mysqli_error($conn));
+                                } else {
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                        <p><?php echo $row['company_info']; ?></p>
+                            <?php
+                                    }
+                                }
+                            ?>
                         </p>
                     </div>
                 </div>
@@ -486,7 +502,24 @@
                     </div>
                     <!--CLIENT QUOTE-->
                     <blockquote>
-                        <?php echo nl2br($companyOwnerInfo); ?>
+                        <?php
+                                $sql = "SELECT company_owner_info FROM company WHERE company_id = $companyID";
+                                $stmt = mysqli_stmt_init($conn);
+                                
+                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                    die('SQL Failed: ' . mysqli_error($conn));
+                                } else {
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                    <?php echo nl2br($row['company_owner_info']); ?>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </p>
                         <cite><?php echo $fullName; ?></cite>
                     </blockquote>
                 </div>
@@ -813,7 +846,6 @@
                 data: { company_id:company_id, company_url:company_url },
                 success:function(data) {
                     $('#all').html(data);
-                    alert(data)
                 }
             });
         }

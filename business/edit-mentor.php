@@ -209,27 +209,27 @@
                                 }
                             }
                         ?>
-                        <div class="slant"></div>
+                        <!-- <div class="slant"></div> -->
 
                         <!--EMPTY PLUS BUTTON-->
                         <!-- <div class="btn-floating btn-large add-btn"><i class="material-icons">add</i></div> -->
 
                         <!--VIDEO PLAY BUTTON-->
-                        <div id="button-holder" class="btn-holder">
+                        <!-- <div id="button-holder" class="btn-holder">
                             <div id="play-btn" class="btn-floating btn-large btn-play">
                                 <i id="icon-play" onclick="setVideo()" class="material-icons">play_arrow</i>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!--VIDEO CLOSE BUTTON-->
-                    <div id="close-btn" class="btn-floating icon-close">
+                    <!-- <div id="close-btn" class="btn-floating icon-close">
                         <i class="fa fa-close"></i>
-                    </div>
+                    </div> -->
                     
                     <div class="card-content">
 
                         <?php
-                            $sql = "SELECT * FROM mentor WHERE mentor_id = $mentorID";
+                            $sql = "SELECT * FROM user, mentor WHERE user.user_ID = $userID AND mentor.mentor_id = $mentorID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -251,7 +251,7 @@
                                     <ul class="profile-list">
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">email</i></span>
-                                            <span class="content"><input type="text" id="mentor_email" name="mentor_email" placeholder="Enter Student Email" value="<?php /** echo $row['mentor_email']; */ ?>"/></span>
+                                            <span class="content"><?php echo $row['user_email']; ?></span>
                                         </li>
                                         <!-- <li class="clearfix">
                                             <span class="title"><i class="material-icons">language</i></span>
@@ -264,11 +264,11 @@
                                         </li> -->
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">phone</i></span>
-                                            <span class="content"><input type="text" id="mentor_contact_no" name="mentor_contact_no" placeholder="Enter Student Contact Details" value="<?php echo $row['mentor_contact_no']; ?>"/></span>
+                                            <span class="content"><input type="text" id="mentor_contact_no" name="mentor_contact_no" placeholder="Enter mentor Contact Details" value="<?php echo $row['mentor_contact_no']; ?>"/></span>
                                         </li>
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">place</i></span>
-                                            <span class="content"><input type="text" id="mentor_address" name="mentor_address" placeholder="Enter Student Address" value="<?php echo $row['mentor_address']; ?>"/></span>
+                                            <span class="content"><input type="text" id="mentor_address" name="mentor_address" placeholder="Enter mentor Address" value="<?php echo $row['mentor_address']; ?>"/></span>
                                         </li>
 
                                     </ul>
@@ -299,44 +299,6 @@
                         </div>
                     </div>        
 
-                    <style>
-                        .videoWrapper iframe {margin: auto; width: 100%; height: 100%;}
-                    </style>
-                    <?php
-                        $sql = "SELECT * FROM company WHERE company_ID = $mentorID";
-                        $stmt = mysqli_stmt_init($conn);
-
-                        if (!mysqli_stmt_prepare($stmt, $sql)) {   
-                            die('SQL Failed: ' . mysqli_error($conn));
-                        } else {
-                            mysqli_stmt_execute($stmt);
-                            $result = mysqli_stmt_get_result($stmt);
-
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $videoLink = $row['company_videos'];
-
-                                if (empty($videoLink)) {
-                    ?>
-                                    <div class="videoWrapper">
-                                        <iframe id="html-video" class="video" style="display:block; margin: 0 auto;" src="https://www.youtube-nocookie.com/embed/<?php echo $videoLink; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </div>
-                    <?php
-                                } else {
-                    ?>
-                                    <div class="videoWrapper">
-                                        <iframe id="html-video" class="video" style="display:block; margin: 0 auto;" src="https://www.youtube-nocookie.com/embed/<?php echo $videoLink; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </div>
-                    <?php
-                                }
-                            }
-                        }
-                    ?>
-                    <!--HTML 5 VIDEO-->
-                    <!-- <video id="html-video" class="video" poster="images/poster/poster.jpg" controls>
-                        <source src="videos/........" type="video/webm">
-                        <source src="videos/..........." type="video/mp4">
-                    </video> -->
-
                 </div>
             </div>
         </div>
@@ -366,7 +328,7 @@
 
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                    <textarea name="mentor_info" id="mentor_info" placeholder="Update information about the company..." ><?php echo $row['mentor_info']; ?></textarea>
+                                    <textarea name="mentor_info" id="mentor_info" placeholder="Update information about the company..." ><?php echo nl2br($row['mentor_info']); ?></textarea>
                             <?php
                                     }
                                 }

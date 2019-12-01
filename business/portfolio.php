@@ -22,7 +22,16 @@
 <body>
   <div class="container">
     <h3 style="text-align: center;">Portfolios</h3>
-    <a href="profile.php"><button>Go Back</button></a>
+		<?php
+			$link = '';
+			
+			if ($_SESSION['userType'] == "Student") {
+				$link = 'edit-student.php';
+			} else if ($_SESSION['userType'] == "Mentor") {
+				$link = 'edit-mentor.php';
+			}
+		?>
+    <a href="<?php echo $link; ?>"><button>Go Back</button></a>
     <div style="float: right;">
       <input type="file" name="product-service-files" id="product-service-files" multiple/>
 			<span class="text-muted">Only .jpg, .png, .gif file/s allowed</span>

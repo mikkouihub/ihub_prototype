@@ -11,6 +11,10 @@
   $userEmail = '';
   $studentID = '';
   $student_url = '';
+  $student_tagline = '';
+  $student_contact = '';
+  $student_address = '';
+  $student_info = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
@@ -18,6 +22,10 @@
     $userEmail = $_SESSION['userEmail'];
     $studentID = $_SESSION['studentID'];
     $student_url = $_SESSION['student_url'];
+    // $student_tagline = $_SESSION['student_tagline'];
+    // $student_contact = $_SESSION['student_contact_no'];
+    // $student_address = $_SESSION['student_address'];
+    // $student_info = $_SESSION['student_info'];
   }
 ?>
 
@@ -273,7 +281,7 @@
 
                     <div class="card-content">
                         <?php
-                            $sql = "SELECT * FROM user, student WHERE user.user_ID = $studentID AND student.student_id = $studentID";
+                            $sql = "SELECT * FROM user, student WHERE user.user_ID = $userID AND student.student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -338,11 +346,6 @@
                             }
                         ?>
                     </div>
-                    <!--HTML 5 VIDEO-->
-                    <!-- <video id="html-video" class="video" poster="images/poster/poster.jpg" controls>
-                        <source src="videos/........" type="video/webm">
-                        <source src="videos/..........." type="video/mp4">
-                    </video>-->
 
                 </div>
             </div>

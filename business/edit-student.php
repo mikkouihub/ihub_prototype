@@ -12,6 +12,10 @@
   $userEmail = '';
   $studentID = '';
   $student_url = '';
+  $student_tagline = '';
+  $student_contact = '';
+  $student_address = '';
+  $student_info = '';
 
   if (isset($_SESSION['loggedIn'])) {
     $userID = $_SESSION['userID'];
@@ -19,6 +23,10 @@
     $userEmail = $_SESSION['userEmail'];
     $studentID = $_SESSION['studentID'];
     $student_url = $_SESSION['student_url'];
+    // $student_tagline = $_SESSION['student_tagline'];
+    // $student_contact = $_SESSION['student_contact_no'];
+    // $student_address = $_SESSION['student_address'];
+    // $student_info = $_SESSION['student_info'];
   }
 ?>
 
@@ -209,27 +217,27 @@
                                 }
                             }
                         ?>
-                        <div class="slant"></div>
+                        <!-- <div class="slant"></div> -->
 
                         <!--EMPTY PLUS BUTTON-->
                         <!-- <div class="btn-floating btn-large add-btn"><i class="material-icons">add</i></div> -->
 
                         <!--VIDEO PLAY BUTTON-->
-                        <div id="button-holder" class="btn-holder">
+                        <!-- <div id="button-holder" class="btn-holder">
                             <div id="play-btn" class="btn-floating btn-large btn-play">
                                 <i id="icon-play" onclick="setVideo()" class="material-icons">play_arrow</i>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!--VIDEO CLOSE BUTTON-->
-                    <div id="close-btn" class="btn-floating icon-close">
+                    <!-- <div id="close-btn" class="btn-floating icon-close">
                         <i class="fa fa-close"></i>
-                    </div>
+                    </div> -->
                     
                     <div class="card-content">
 
                         <?php
-                            $sql = "SELECT * FROM student WHERE student_id = $studentID";
+                            $sql = "SELECT * FROM user, student WHERE user.user_ID = $userID AND student.student_id = $studentID";
                             $stmt = mysqli_stmt_init($conn);
                             
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -251,7 +259,7 @@
                                     <ul class="profile-list">
                                         <li class="clearfix">
                                             <span class="title"><i class="material-icons">email</i></span>
-                                            <span class="content"><input type="text" id="student_email" name="student_email" placeholder="Enter Student Email" value="<?php /** echo $row['student_email']; */ ?>"/></span>
+                                            <span class="content"><?php echo $row['user_email']; ?></span>
                                         </li>
                                         <!-- <li class="clearfix">
                                             <span class="title"><i class="material-icons">language</i></span>
@@ -299,44 +307,6 @@
                         </div>
                     </div>        
 
-                    <style>
-                        .videoWrapper iframe {margin: auto; width: 100%; height: 100%;}
-                    </style>
-                    <?php
-                        $sql = "SELECT * FROM company WHERE company_ID = $studentID";
-                        $stmt = mysqli_stmt_init($conn);
-
-                        if (!mysqli_stmt_prepare($stmt, $sql)) {   
-                            die('SQL Failed: ' . mysqli_error($conn));
-                        } else {
-                            mysqli_stmt_execute($stmt);
-                            $result = mysqli_stmt_get_result($stmt);
-
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $videoLink = $row['company_videos'];
-
-                                if (empty($videoLink)) {
-                    ?>
-                                    <div class="videoWrapper">
-                                        <iframe id="html-video" class="video" style="display:block; margin: 0 auto;" src="https://www.youtube-nocookie.com/embed/<?php echo $videoLink; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </div>
-                    <?php
-                                } else {
-                    ?>
-                                    <div class="videoWrapper">
-                                        <iframe id="html-video" class="video" style="display:block; margin: 0 auto;" src="https://www.youtube-nocookie.com/embed/<?php echo $videoLink; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </div>
-                    <?php
-                                }
-                            }
-                        }
-                    ?>
-                    <!--HTML 5 VIDEO-->
-                    <!-- <video id="html-video" class="video" poster="images/poster/poster.jpg" controls>
-                        <source src="videos/........" type="video/webm">
-                        <source src="videos/..........." type="video/mp4">
-                    </video> -->
-
                 </div>
             </div>
         </div>
@@ -366,7 +336,7 @@
 
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                    <textarea name="student_info" id="student_info" placeholder="Update information about the company..." ><?php echo $row['student_info']; ?></textarea>
+                                    <textarea name="student_info" id="student_info" placeholder="Update information about the company..." ><?php echo nl2br($row['student_info']); ?></textarea>
                             <?php
                                     }
                                 }
